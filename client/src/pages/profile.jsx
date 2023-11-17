@@ -2,7 +2,7 @@ import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { app } from '../firebase.js';
-import { updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice.js';
+import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutFailure, signOutStart, signOutSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice.js';
 // firebase storage code       
 // allow read;
 // allow write: if
@@ -97,6 +97,65 @@ export default function Profile() {
     }
   }
 
+  const handleDelete = async ()=>{
+
+   // console.log(formData)
+    try {
+      dispatch(deleteUserStart());
+      const res =await fetch(`/api/user/delete/${currentUser._id}`,{
+        method: 'DELETE',
+        headers:{
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(),
+      })
+      const data = await res.json();
+     if(data.success===false){
+        dispatch(deleteUserFailure(data.message));
+        return;
+      }
+
+      dispatch(deleteUserSuccess(data));
+   
+  //    console.log(data)
+      
+    }
+    catch (error) {
+      dispatch(deleteUserFailure(error.message));
+      
+    }
+  }
+
+  const handleSignOut = async ()=>{
+
+    // console.log(formData)
+     try {
+       dispatch(signOutStart());
+       const res =await fetch(`/api/auth/signout`,{
+         method: 'GET',
+         headers:{
+           'Content-Type': 'application/json'
+         },
+         body: JSON.stringify(),
+       })
+       const data = await res.json();
+      if(data.success===false){
+         dispatch(signOutFailure(data.message));
+         return;
+       }
+ 
+       dispatch(signOutSuccess(data));
+    
+   //    console.log(data)
+       
+     }
+     catch (error) {
+       dispatch(signOutFailure(error.message));
+       
+     }
+   }
+
+   
 
   return (
     <div className='mx-auto max-w-lg p-3'>
@@ -113,7 +172,8 @@ export default function Profile() {
           ) : filePercent > 0 && filePercent < 100 ? (
             <span className='text-slate-700'>{`Uploading ${filePercent}%`}</span>
           ) : filePercent === 100  ? (
-            <span className='text-green-700'>Image successfully uploaded!</span>
+            <span className='text-green-700'>Image successfully uploaded! Now click update.</span>
+
           ) : (
             ''
           )}
@@ -125,8 +185,8 @@ export default function Profile() {
         <button disabled={loading} className='border p-3 rounded-lg bg-slate-700 text-white uppercase hover:opacity-90 disabled:opacity-60'>{loading ? 'loading...' : 'update profile'} </button>
       </form>
       <div className='flex justify-between mt-5'>
-        <span className='text-red-700 cursor-pointer'>Delete Account</span>
-        <span className='text-red-400 cursor-pointer'>Sign out</span>
+        <span onClick={handleDelete} className='text-red-700 cursor-pointer'>Delete Account</span>
+        <span onClick={handleSignOut} className='text-red-400 cursor-pointer'>Sign out</span>
       </div>
 
       <p className="text-red-700 mt-5">{error? error : ''}</p>
