@@ -11,6 +11,20 @@ export const signup = async (req, res, next) => {
 
   const { username, email, password } = req.body;
 
+  const usernameExist = await User.findOne({ username });
+  if (usernameExist) return next(errorHandler(400, "Username already exist"));
+  const emailExist = await User.findOne({ email });
+  if (emailExist) return next(errorHandler(400, "Email already exist"));
+  if (!username || !email || !password) {
+    return next(errorHandler(400, "All fields are required"));
+  }
+  if (password.length < 6) {
+    return next(errorHandler(400, "Password must be at least 6 characters"));
+  }
+  if (username.length < 3) {
+    return next(errorHandler(400, "Username must be at least 3 characters"));
+  }
+
   const hashPassword = bcryptjs.hashSync(password, 10);
 
   const newUser = new User({ username, email, password: hashPassword });
