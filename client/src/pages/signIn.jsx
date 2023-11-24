@@ -57,7 +57,7 @@ dispatch(signInSuccess(data))
   
   <input type="text" placeholder='password' className='border p-3 rounded-lg ' id='password' onChange={handleChange} />
 
-  <button disabled ={loading} className='bg-slate-700 text-white p-3  rounded-lg uppercase hover:opacity-95 disabled:opacity-80'>{loading ?'Loading' : 'Sign In'}</button>
+  <button disabled ={loading} className='bg-slate-700 text-white p-3  rounded-lg uppercase hover:font-semibold hover:opacity-95 disabled:opacity-80'>{loading ?'Loading' : 'Sign In'}</button>
   <Oauth />
  </form>
  <div className='flex gap-2 mt-5'>

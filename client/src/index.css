@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* body {
+  
+  background-color: linear-gradient(to right, #2980b9, #6dd5fa);
+} */
+
 body {
-  background-color: rgb(241, 245, 241);
+  background: linear-gradient(to right, #6190e8, #a7bfeb);
+  /* Replace #ff8a00 and #da1b60 with your desired color values */
+  /* You can also customize the direction (to right, to left, to top, to bottom, etc.) */
 }
