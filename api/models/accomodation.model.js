@@ -2,13 +2,16 @@ import mongoose, { Schema } from "mongoose";
 
 const accommodationSchema = new mongoose.Schema(
   {
+    owner: { type: Schema.Types.ObjectId, ref: "User" },
     name: { type: String, required: true },
     email: { type: String },
     password: { type: String },
     accomodation_avatar: { type: String },
+    type: { type: String, required: true },
+    title: { type: String },
     description: { type: String },
     images: [{ type: String }],
-    rating: { type: Number, default: 0 },
+    rating: { type: Number, default: 0, min: 0, max: 5 },
     facilities: [String],
     location: { type: String, required: true },
     map_location: {
@@ -23,6 +26,10 @@ const accommodationSchema = new mongoose.Schema(
     reviews: {
       type: [Schema.Types.ObjectId],
       ref: "Review",
+    },
+    rooms: {
+      type: [Schema.Types.ObjectId],
+      ref: "Room",
     },
 
     discount: { type: Number, default: 0 },

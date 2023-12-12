@@ -21,6 +21,11 @@ const userSchema = new mongoose.Schema(
       default:
         "https://isobarscience-1bfd8.kxcdn.com/wp-content/uploads/2020/09/default-profile-picture1.jpg",
     },
+    accomodation: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Accommodation",
+      default: null,
+    },
   },
   { timestamps: true }
 );

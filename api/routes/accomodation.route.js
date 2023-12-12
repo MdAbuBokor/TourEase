@@ -1,18 +1,23 @@
 import express from "express";
 
 import {
-  signin,
-  signup,
+  createAccomodation,
+  deleteAccomodation,
+  getAccomodationInfo,
   test,
+  updateAccomodationInfo,
 } from "../controllers/accomodation.controller.js";
+
+import { verifyToken } from "../utils/verifyUser.js";
 
 const router = express.Router();
 
 router.get("/test", test);
-//router.post("/update/:id", verifyToken, updatedAccomodationInfo);
-// router.post("/update/:id", verifyToken, updatedUserInfo);
-// router.delete("/delete/:id", verifyToken, deleteUser);
-router.post("/signup", signup);
-router.post("/signin", signin);
+
+router.post("/createAccomodation/:id", verifyToken, createAccomodation);
+router.post("/updateAccomodation/:id", verifyToken, updateAccomodationInfo);
+router.delete("/deleteAccomodation/:id", verifyToken, deleteAccomodation);
+
+router.get("/getAccomodation/:id", getAccomodationInfo);
 
 export default router;
