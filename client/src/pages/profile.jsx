@@ -1,6 +1,8 @@
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import Header from "../components/Header.jsx";
 import { app } from '../firebase.js';
 import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutFailure, signOutStart, signOutSuccess, updateUserFailure, updateUserStart, updateUserSuccess } from '../redux/user/userSlice.js';
 // firebase storage code       
@@ -98,68 +100,103 @@ export default function Profile() {
   }
 
   const handleDelete = async ()=>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        try {
+          dispatch(deleteUserStart());
+          const res =await fetch(`/api/user/delete/${currentUser._id}`,{
+            method: 'DELETE',
+            headers:{
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(),
+          })
+          const data = await res.json();
+         if(data.success===false){
+            dispatch(deleteUserFailure(data.message));
+            return;
+          }
+    
+          dispatch(deleteUserSuccess(data));
+          Swal.fire({
+            title: "Deleted!",
+            text: "User has been deleted.",
+            icon: "success"
+          });
+       
+      //    console.log(data)
+          
+        }
+        catch (error) {
+          dispatch(deleteUserFailure(error.message));
+          
+        }
+       
+      }
+    });
 
    // console.log(formData)
-    try {
-      dispatch(deleteUserStart());
-      const res =await fetch(`/api/user/delete/${currentUser._id}`,{
-        method: 'DELETE',
-        headers:{
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(),
-      })
-      const data = await res.json();
-     if(data.success===false){
-        dispatch(deleteUserFailure(data.message));
-        return;
-      }
-
-      dispatch(deleteUserSuccess(data));
    
-  //    console.log(data)
-      
-    }
-    catch (error) {
-      dispatch(deleteUserFailure(error.message));
-      
-    }
   }
 
   const handleSignOut = async ()=>{
+    Swal.fire({
+      title: "Are you sure to Signout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "SignOut"
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        try {
+          dispatch(signOutStart());
+          const res =await fetch(`/api/auth/signout`,{
+            method: 'GET',
+            headers:{
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(),
+          })
+          const data = await res.json();
+         if(data.success===false){
+            dispatch(signOutFailure(data.message));
+            return;
+          }
+    
+          dispatch(signOutSuccess(data));
+       
+      //    console.log(data)
+          
+        }
+        catch (error) {
+            dispatch(signOutFailure(error.message));
+          
+        }
+        Swal.fire({
+          title: "SignOut!",
+          icon: "success"
+        });
+      }
+    });
 
     // console.log(formData)
-     try {
-       dispatch(signOutStart());
-       const res =await fetch(`/api/auth/signout`,{
-         method: 'GET',
-         headers:{
-           'Content-Type': 'application/json'
-         },
-         body: JSON.stringify(),
-       })
-       const data = await res.json();
-      if(data.success===false){
-         dispatch(signOutFailure(data.message));
-         return;
-       }
- 
-       dispatch(signOutSuccess(data));
-    
-   //    console.log(data)
-       
-     }
-     catch (error) {
-       dispatch(signOutFailure(error.message));
-       
-     }
+     
    }
 
    
 
   return (
     <div>
-    <Header />
+    <Header/>
     <div className='mx-auto max-w-lg p-3'>
       <h1 className='text-3xl font-semibold text-center my-7 '>Profile</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>

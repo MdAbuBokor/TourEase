@@ -1,28 +1,20 @@
 
-import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
-} from 'firebase/storage';
-import { useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import HeaderAccomodation from '../../components/Header.accommodation';
 
 const CreateAccommodation = () => {
   const [formData, setFormData] = useState({});
-  const [file, setFile] = useState(null);
-  const [filePercent, setFilePercent] = useState(0);
-  const [fileUploadError, setFileUploadError] = useState(false);
+
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const fileRef = useRef();
-  const {currentUser} = useSelector(state=>state.user)
+
+ 
 
 
+  
 
   const handleChange = (e) => {
     setFormData({
@@ -31,10 +23,11 @@ const CreateAccommodation = () => {
     });
   };
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
-  };
+
+
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -42,9 +35,6 @@ const CreateAccommodation = () => {
     try {
       setLoading(true);
 
-      if (file) {
-        await handleFileUpload(file);
-      }
 
       // Replace the endpoint and method with your actual API endpoint and method
       const res = await fetch(`/api/accommodation/createAccommodation`, {
@@ -72,32 +62,7 @@ const CreateAccommodation = () => {
     }
   };
 
-  const handleFileUpload = (file) => {
-    const storage = getStorage();
-    const fileName = file.name + new Date().getTime();
-    const storageRef = ref(storage, fileName);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-
-    uploadTask.on(
-      'state_changed',
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setFilePercent(Math.round(progress));
-      },
-      (error) => {
-        setFileUploadError(true);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setFormData({
-            ...formData,
-            avatar: downloadURL,
-          });
-        });
-      }
-    );
-  };
-
+ 
 
 
   return (
@@ -112,35 +77,7 @@ const CreateAccommodation = () => {
 
       <h1 className='text-3xl text-center font-semibold my-7'>Create Accommodation</h1>
       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-        <label className='text-center' htmlFor="accommodation_avatar">Accommodation Avatar:</label>
-        <div className='flex items-center gap-4'>
-          <input
-            type="file"
-            ref={fileRef}
-            hidden
-            accept='image/*'
-            onChange={handleFileChange}
-          />
-          <img
-            onClick={() => fileRef.current.click()}
-            src={file ? URL.createObjectURL(file) : 'https://media.radissonhotels.net/image/radisson-blu-hotel-dhaka-water-garden/exterior/16256-113891-f63612886_3xl.jpg?impolicy=HomeHero'}
-            alt="profile_pic"
-            className='w-auto h-50  mx-auto cursor-pointer'
-          />
-        </div>
-        <p className='text-sm self-center'>
-          {fileUploadError && (
-            <span className='text-red-700'>
-              Error uploading image (Note: image must be less than 2 MB).
-            </span>
-          )}
-          {filePercent > 0 && filePercent < 100 && (
-            <span className='text-slate-700'>{`Uploading ${filePercent}%`}</span>
-          )}
-          {filePercent === 100 && (
-            <span className='text-green-700'>Image successfully uploaded! Now click "Create Accommodation".</span>
-          )}
-        </p>
+     
 
         <label htmlFor="name">Name:</label>
         <input type="text" placeholder='Name' className='border p-3 rounded-lg' id='name' onChange={handleChange} />

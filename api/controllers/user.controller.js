@@ -14,13 +14,20 @@ export const updatedUserInfo = async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
 
-    const usernameExist = await User.findOne({ username });
-    if (usernameExist) return next(errorHandler(400, "Username already exist"));
-    const emailExist = await User.findOne({ email });
-    if (emailExist) return next(errorHandler(400, "Email already exist"));
+    if (username) {
+      const usernameExist = await User.findOne({ username });
+      if (usernameExist)
+        return next(errorHandler(400, "Username already exist"));
+      if (username.length < 3) {
+        return next(
+          errorHandler(400, "Username must be at least 3 characters")
+        );
+      }
+    }
 
-    if (username.length < 3) {
-      return next(errorHandler(400, "Username must be at least 3 characters"));
+    if (email) {
+      const emailExist = await User.findOne({ email });
+      if (emailExist) return next(errorHandler(400, "Email already exist"));
     }
 
     if (req.body.password) {
