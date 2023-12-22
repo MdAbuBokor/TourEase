@@ -2,21 +2,24 @@ import mongoose, { Schema } from "mongoose";
 
 const accommodationSchema = new mongoose.Schema(
   {
-    owner: { type: Schema.Types.ObjectId, ref: "User" },
+    email: { type: String, required: true },
+    password: { type: String, required: true },
     name: { type: String, required: true },
-    email: { type: String },
-    password: { type: String },
-    accomodation_avatar: { type: String },
+    location: { type: String, required: true },
     type: { type: String, required: true },
+    avatar: {
+      type: String,
+      default:
+        "https://media.radissonhotels.net/image/radisson-blu-hotel-dhaka-water-garden/exterior/16256-113891-f63612886_3xl.jpg?impolicy=HomeHero",
+    },
     title: { type: String },
     description: { type: String },
     images: [{ type: String }],
     rating: { type: Number, default: 0, min: 0, max: 5 },
     facilities: [String],
-    location: { type: String, required: true },
     map_location: {
-      lat: { type: Number },
-      lng: { type: Number },
+      type: Schema.Types.ObjectId,
+      ref: "Map_location",
     },
     contactInfo: {
       phone: { type: String },

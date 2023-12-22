@@ -1,7 +1,7 @@
 import React from 'react'
-import { FaSearch } from 'react-icons/fa'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import ProfileLink from './ProfileLink'
 
 
 export default function Header() {
@@ -20,10 +20,10 @@ export default function Header() {
         </h1>
             </Link>
        
-        <form action="" className='bg-slate-100 p-3 rounded-lg flex items-center'>
+        {/* <form action="" className='bg-slate-100 p-3 rounded-lg flex items-center'>
             <input type="text" placeholder='Search..' className='bg-transparent focus:outline-none w-24 sm:w-64' />
         <FaSearch className='text-slate-600'/>
-        </form>
+        </form> */}
         <ul className='flex gap-4 '>
             <Link to='/'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
@@ -34,19 +34,40 @@ export default function Header() {
             </Link>
            
            
-            <Link to='/profile'>
+            {/* <Link to='/profile'>
             {currentUser ? (
-                <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt="profile_pic" />
+                <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt="profile_pic" />,
+        
+                currentUser && currentUser.accomodation && currentUser.accomodation.length > 0 && currentUser.{currentUser.accomodation} ? (
+                    <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt="profile_pic" />
+                    
+    
+                    
+    
+                ):
+                (
+                    <li className='text-slate-700 hover:underline'>Create</li>
+                )
+                    
+                
+
+
+                
 
             ):
             (
                 <li className='text-slate-700 hover:underline'>Sign in</li>
             )}
                 
-            </Link>
+            </Link> */}
+
+         <ProfileLink />
+           
             
         </ul> 
         </div>
+
+        
       
     </header>
   )

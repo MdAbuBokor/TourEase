@@ -5,6 +5,11 @@ const roomSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  accommodation: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Accommodation',
+    required: true,
+  },
   roomType: {
     type: String,
     required: true,
@@ -31,8 +36,7 @@ const roomSchema = new mongoose.Schema({
     type: String,
   },
   primaryImages: {
-    type: String,  // Array of image URLs or paths
-  },
+    type: String, 
 
   images: {
     type: [String],  // Array of image URLs or paths

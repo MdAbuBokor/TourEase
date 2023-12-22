@@ -158,6 +158,8 @@ export default function Profile() {
    
 
   return (
+    <div>
+    <Header />
     <div className='mx-auto max-w-lg p-3'>
       <h1 className='text-3xl font-semibold text-center my-7 '>Profile</h1>
       <form className='flex flex-col gap-4' onSubmit={handleSubmit}>
@@ -192,6 +194,7 @@ export default function Profile() {
       <p className="text-red-700 mt-5">{error? error : ''}</p>
       <p className="text-green-700 mt-5">{updateSuccess? 'Profile updated successfully' : ''}</p>
 
+    </div>
     </div>
   )
 }

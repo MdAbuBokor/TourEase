@@ -1,56 +1,111 @@
+import dotenv from "dotenv";
+dotenv.config();
 
-export const test = (req, res) => {
-    res.send("Hello Accomodation!! !");
-  };
-  
-  
-  import bcryptjs from "bcryptjs";
-  import dotenv from "dotenv";
-  dotenv.config();
-  
-  import jwt from "jsonwebtoken";
-  import Accommodation from "../models/accomodation.model.js";
-  import Room from "../models/room.model.js";
-  import { errorHandler } from "./../utils/error.js";
-  export const createRoom = async (req, res, next) => {
+import Accommodation from "../models/accomodation.model.js";
+import Room from "../models/room.model.js";
+import User from "../models/user.model.js";
 
-  
+export const createRoom = async (req, res, next) => {
+  try {
+    if (req.user.id !== req.params.id) {
+      return next(errorHandler(403, "You can create only your account!"));
+    }
+    const user = await User.findById(req.user.id);
+
+    if (!user.accomodation) {
+      return next(
+        errorHandler(
+          403,
+          "You can create a room after creating an accommodation!"
+        )
+      );
+    }
+
+    const existingRoom = await Room.findOne({
+      roomNumber: req.body.roomNumber,
+      accomodation: user.accomodation,
+    });
+
+    if (existingRoom) {
+      return next(
+        errorHandler(403, "Room Number already exists in this accommodation!")
+      );
+    }
+
+    req.body.accomodation = user.accomodation;
     const newRoom = new Room(req.body);
-    try {
-        
-      await newRoom.save();
 
-  
-      res.status(201).json("new room has been saved");
-    } catch (error) {
-      next(error);
+    await newRoom.save();
+    await Accommodation.findByIdAndUpdate(
+      user.accomodation,
+      {
+        $push: { rooms: newRoom._id },
+      },
+      { new: true }
+    );
+
+    res.status(201).json("New room has been saved");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateRoomInfo = async (req, res, next) => {
+  try {
+    // Ensure the user is updating their own account
+    if (req.user.id !== req.params.id) {
+      return next(errorHandler(403, "You can update only your account!"));
     }
-  };
-  
-  export const signin = async (req, res, next) => {
-    const { email, password } = req.body;
-    try {
-      const validAccomodation = await Accommodation.findOne({ email });
-      if (!validAccomodation)
-        return next(errorHandler(404, "Accomodation not found"));
-  
-      const validPassword = bcryptjs.compareSync(
-        password,
-        validAccomodation.password
-      );
-      if (!validPassword) return next(errorHandler(401, "Wrong Credintials!"));
-  
-      const token = jwt.sign(
-        { id: validAccomodation._id },
-        process.env.JWT_SECRET
-      );
-      const { password: pass, ...rest } = validAccomodation._doc;
-      res
-        .cookie("accomodation_access_token ", token, { httpOnly: true })
-        .status(200)
-        .json(rest);
-    } catch (error) {
-      next(error);
+    const user = await User.findById(req.user.id);
+
+    await Room.findOneAndUpdate(
+      {
+        roomNumber: req.body.roomNumber,
+        accomodation: user.accomodation,
+      },
+      req.body,
+      { new: true }
+    ); //room Number should be not updatedable from client
+
+    res.status(200).json("Room has been updated");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteRoom = async (req, res, next) => {
+  try {
+    // Ensure the user is deleting their own account
+    if (req.user.id !== req.params.id) {
+      return next(errorHandler(403, "You can delete only your account!"));
     }
-  };
-  
+
+    const user = await User.findById(req.user.id);
+
+    // Find the room to be deleted
+    const roomToDelete = await Room.findOne({
+      roomNumber: req.body.roomNumber,
+      accomodation: user.accomodation,
+    });
+
+    if (!roomToDelete) {
+      return next(errorHandler(404, "Room not found"));
+    }
+
+    // Delete the room
+    await roomToDelete.delete();
+
+    // Update the accomodation by removing the deleted room from its rooms array
+    await Accommodation.findByIdAndUpdate(
+      user.accomodation,
+      {
+        $pull: { rooms: roomToDelete._id },
+      },
+      { new: true }
+    );
+
+    res.status(200).json("Room has been deleted");
+  } catch (error) {
+    next(error);
+  }
+};
