@@ -4,8 +4,10 @@ import {
   createAccommodation,
   deleteAccommodation,
   getAccommodationInfo,
+  getRooms,
   googleAccommodation,
   signInAccommodation,
+  signOutAccommodation,
   test,
   updateAccommodationInfo,
 } from "../controllers/accommodation.controller.js";
@@ -22,5 +24,7 @@ router.post("/googleAccommodation", googleAccommodation);
 router.post("/updateAccommodation/:id", verifyToken, updateAccommodationInfo);
 router.delete("/deleteAccommodation/:id", verifyToken, deleteAccommodation);
 router.get("/getAccommodation/:id", getAccommodationInfo);
+router.get("/getrooms/:id", getRooms);
+router.get("/signOutAccommodation", signOutAccommodation);
 
 export default router;

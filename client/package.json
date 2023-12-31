@@ -14,8 +14,10 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@reduxjs/toolkit": "^1.9.5",
+    "@vis.gl/react-google-maps": "^0.4.2",
     "atomic-spinner": "^1.3.1",
     "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
     "firebase": "^10.5.2",
     "formik": "^2.4.5",
     "framer-motion": "^10.16.16",
@@ -24,6 +26,7 @@
     "react-icons": "^4.10.1",
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.15.0",
+    "react-table": "^7.8.0",
     "redux-persist": "^6.0.0",
     "sweetalert2": "^11.10.1"
   },

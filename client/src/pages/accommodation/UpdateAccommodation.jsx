@@ -1,18 +1,21 @@
 import {
-    getDownloadURL,
-    getStorage,
-    ref,
-    uploadBytesResumable,
+  getDownloadURL,
+  getStorage,
+  ref,
+  uploadBytesResumable,
 } from "firebase/storage";
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import HeaderAccomodation from "../../components/Header.accommodation.jsx";
+import { InputMap } from "../../components/InputMap.jsx";
+import MapShow from "../../components/MapShow.jsx";
 import SidebarNew from "../../components/Sidebar/SidebarNew.jsx";
+
 import { app } from "../../firebase.js";
 import {
-    updateFailure,
-    updateStart,
-    updateSuccess,
+  updateFailure,
+  updateStart,
+  updateSuccess,
 } from "../../redux/accommodation/accommodationSlice.js";
 // firebase storage code
 // allow read;
@@ -197,8 +200,27 @@ export default function Profile() {
   //   // console.log(formData)
 
   //  }
+ // console.log(mapCenter)
+// let loc={};
+//  function getLocation() {
+//   if (navigator.geolocation) {
+//     navigator.geolocation.getCurrentPosition(showPosition);
+//   } else {
+//     loc={success:false}
+//   }
+// }
+// function showPosition(position) {
+//   loc={success:true,latitude:position.coords.latitude,longitude:position.coords.longitude}
+// }
+
+//getLocation();
+//location.success=false;
+//location.latitude=12.23;
+
+
 
   return (
+   // console.log(location)
     <div className="flex h-screen ">
       <SidebarNew />
       <div className="flex-1 flex flex-col overflow-hidden">
@@ -291,6 +313,16 @@ export default function Profile() {
                   id="location"
                   onChange={handleChange}
                 />
+                <div className="">
+                <MapShow height={300} width={500} />
+                </div>
+
+                <div className="">
+                <InputMap height={300} width={500} />
+                </div>
+              
+                
+                
 
                 <button
                   disabled={loading}

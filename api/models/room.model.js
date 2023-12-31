@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const roomSchema = new mongoose.Schema({
   roomNumber: {
@@ -7,7 +7,7 @@ const roomSchema = new mongoose.Schema({
   },
   accommodation: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Accommodation',
+    ref: "Accommodation",
     required: true,
   },
   roomType: {
@@ -20,8 +20,8 @@ const roomSchema = new mongoose.Schema({
   },
   pricePerNight: {
     type: Number,
-    required: true,
   },
+
   description: {
     type: String,
   },
@@ -35,14 +35,12 @@ const roomSchema = new mongoose.Schema({
   bedType: {
     type: String,
   },
-  primaryImages: {
-    type: String, 
 
   images: {
-    type: [String],  // Array of image URLs or paths
+    type: [String], // Array of image URLs or paths
   },
 });
 
-const Room = mongoose.model('Room', roomSchema);
+const Room = mongoose.model("Room", roomSchema);
 
-module.exports = Room;
+export default Room;

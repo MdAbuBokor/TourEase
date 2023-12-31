@@ -1,6 +1,7 @@
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import Accommodation from "../models/accommodation.model.js";
+import Room from "../models/room.model.js";
 import { errorHandler } from "../utils/error.js";
 
 export const test = (req, res) => {
@@ -62,6 +63,17 @@ export const signInAccommodation = async (req, res, next) => {
   }
 };
 
+export const signOutAccommodation = async (req, res, next) => {
+  try {
+    res
+      .clearCookie("acc_access_token", { sameSite: "none", secure: true })
+      .status(200)
+      .json("Accommodation signed out");
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const googleAccommodation = async (req, res, next) => {
   try {
     const accommodation = await Accommodation.findOne({
@@ -98,18 +110,19 @@ export const getAccommodationInfo = async (req, res, next) => {
 
 export const updateAccommodationInfo = async (req, res, next) => {
   try {
+    const upaccommodation = await Accommodation.findById(req.params.id);
     if (req.accommodation.id !== req.params.id) {
       return next(errorHandler(403, "You can update only your account!"));
     }
     const { name, email, password, ...rest } = req.body;
-    if (req.body.email) {
+    if (req.body.email && req.body.email !== upaccommodation.email) {
       const emailExist = await Accommodation.findOne({ email });
       if (emailExist) return next(errorHandler(400, "Email already exists"));
     }
 
     if (req.body.name) {
       const nameExist = await Accommodation.findOne({ name });
-      if (nameExist) {
+      if (nameExist && nameExist.name !== upaccommodation.name) {
         return next(errorHandler(400, "Name already exists"));
       }
       if (name.length < 5) {
@@ -146,6 +159,15 @@ export const deleteAccommodation = async (req, res, next) => {
   try {
     await Accommodation.findByIdAndDelete(req.params.id);
     res.status(200).json("Accommodation deleted successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getRooms = async (req, res, next) => {
+  try {
+    const rooms = await Room.find({ accommodation: req.params.id });
+    res.status(200).json(rooms);
   } catch (error) {
     next(error);
   }
