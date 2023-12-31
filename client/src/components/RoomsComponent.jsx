@@ -20,6 +20,12 @@ useEffect(() => {
   }
 }, [data]);
 
+//sort rooms by roomNumber
+
+// const sortedRooms = [...rooms].sort((a, b) => a.roomNumber - b.roomNumber);
+//setRooms(sortedRooms);
+
+
 
 
 
@@ -190,6 +196,7 @@ const handleAvailability = async (roomId,isAvailable)=>{
                         <td className=' text-center justify-center border-r-2 p-2 '>Edit</td>
                       
                         <td  onClick={() => handleDelete(room._id)} className='border-b-2 cursor-pointer text-center justify-center border-r-2 p-2 bg-red-600 rounded-lg'><button>Delete</button></td>
+                        
                     </tr>
                 ))}
             </tbody>

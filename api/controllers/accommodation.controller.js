@@ -166,7 +166,9 @@ export const deleteAccommodation = async (req, res, next) => {
 
 export const getRooms = async (req, res, next) => {
   try {
-    const rooms = await Room.find({ accommodation: req.params.id });
+    const rooms = await Room.find({ accommodation: req.params.id }).sort({
+      roomNumber: 1,
+    });
     res.status(200).json(rooms);
   } catch (error) {
     next(error);

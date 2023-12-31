@@ -102,3 +102,12 @@ export const deleteRoom = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getRoom = async (req, res, next) => {
+  try {
+    const room = await Room.findById(req.params.roomId);
+    res.status(200).json(room);
+  } catch (error) {
+    next(error);
+  }
+};
