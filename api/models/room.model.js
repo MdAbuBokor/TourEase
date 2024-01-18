@@ -35,6 +35,16 @@ const roomSchema = new mongoose.Schema({
   bedType: {
     type: String,
   },
+  photo: {
+    type: String,
+    default:
+      "https://media.designcafe.com/wp-content/uploads/2023/07/05141750/aesthetic-room-decor.jpg",
+  },
+  images: {
+    type: [String],
+    default:
+      "https://media.designcafe.com/wp-content/uploads/2023/07/05141750/aesthetic-room-decor.jpg",
+  },
 
   image1: {
     type: String,

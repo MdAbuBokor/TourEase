@@ -8,7 +8,7 @@ export default function SingleRoomShow({ roomId }) {
   useEffect(() => {
     // Set the image once data is available
     if (data) {
-      setImage(data.image1);
+      setImage(data.image);
     }
   }, [data]);
 
@@ -17,6 +17,7 @@ export default function SingleRoomShow({ roomId }) {
       return image;
     }
   };
+ // console.log(data)
 
   const handleImageClick = (e) => {
     setImage(e.target.src);
@@ -25,32 +26,12 @@ export default function SingleRoomShow({ roomId }) {
   return (
     <div className="lg:flex lg:items-center lg:justify-between">
     {/* Images Section */}
-    <div className="lg:w-1/2">
-      <div className="images lg:h-1/2">
+    <div className="rounded-lg shadow-md lg:w-1/2">
+      <div className="images lg:h-1/2 rounded-lg shadow-md">
         <div className="active-image mb-2 lg:mb-0">
           <img className="w-full h-full object-cover" src={image} alt="" />
         </div>
-        <div className="grid grid-cols-6 gap-2">
-          {/* ... Your image components ... */}
-          <div className="cursor-pointer">
-              <img onClick={handleImageClick} src={data.image1} alt="" />
-            </div>
-            <div className="cursor-pointer">
-              <img onClick={handleImageClick} src={data.image2} alt="" />
-            </div>
-            <div className="cursor-pointer">
-              <img onClick={handleImageClick} src={data.image3} alt="" />
-            </div>
-            <div className="cursor-pointer">
-              <img onClick={handleImageClick} src={data.image4} alt="" />
-            </div>
-            <div className="cursor-pointer">
-              <img onClick={handleImageClick} src={data.image5} alt="" />
-            </div>
-            <div className="cursor-pointer">
-              <img onClick={handleImageClick} src={data.image6} alt="" />
-            </div>
-        </div>
+
       </div>
     </div>
   
@@ -114,6 +95,8 @@ export default function SingleRoomShow({ roomId }) {
             </div>
       </div>
     </div>
+
+
   </div>
   );
 }

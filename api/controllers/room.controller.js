@@ -78,6 +78,34 @@ export const updateRoomInfo = async (req, res, next) => {
   }
 };
 
+export const AddNewImage = async (req, res, next) => {
+  try {
+    // Ensure the user is updating their own account
+    if (req.accommodation.id !== req.params.id) {
+      return next(errorHandler(403, "You can update only your account!"));
+    }
+
+    const roomId = req.query.roomId;
+    const roomToUpdate = await Room.findById(roomId);
+
+    if (!roomToUpdate) {
+      return next(errorHandler(404, "Room not found"));
+    }
+
+    const updatedRoom = await Room.findByIdAndUpdate(
+      roomId,
+      { $push: { image: req.body.img } },
+      {
+        new: true,
+      }
+    );
+
+    res.status(200).json("New Image Added");
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const deleteRoom = async (req, res, next) => {
   try {
     // Ensure the user is deleting their own account

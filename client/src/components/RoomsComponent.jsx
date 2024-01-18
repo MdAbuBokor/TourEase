@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 import useFetch from '../../hooks/useFetch.js';
 import AddRoom from './AddRoom.jsx';
+import UpdateRoom from './UpdateRoom';
 
 export default function RoomsComponent() {
   const { currentAccommodation } = useSelector(state => state.accommodation);
@@ -11,6 +12,8 @@ export default function RoomsComponent() {
   );
   const [rooms, setRooms] = useState([]);
   const [Add,setAdd]=useState(false);
+  const [UpdateRoomOpen,setUpdateRoomOpen]=useState(false);
+  const [RoomToUpdate,setRoomToUpdate]=useState(null);
 //   console.log(currentAccommodation)
 //   console.log(data);
 
@@ -95,6 +98,11 @@ const handleAvailability = async (roomId,isAvailable)=>{
 
  // console.log(formData)
  
+};
+
+const handleRoomUpdate=(room)=>{
+  setRoomToUpdate(room);
+  setUpdateRoomOpen(true)
 }
 
 
@@ -162,48 +170,94 @@ const handleAvailability = async (roomId,isAvailable)=>{
 
 
     return (
+      <div className=" border-sky-200 border-2 rounded-lg mt-10 max-w-7xl">
+        <button
+          className="bg-sky-400 text-white p-2 rounded-lg"
+          onClick={() => setAdd(!Add)}
+        >
+          {Add ? "Close " : "Add Room + "}
+        </button>
 
-    <div className=" border-sky-200 border-2 rounded-lg mt-10 max-w-7xl">
- <button className='bg-sky-400 text-white p-2 rounded-lg' onClick={() => setAdd(!Add)} >
-     {Add ? "Close " : "Add Room + "}
-    </button>
+        {Add && <AddRoom onClose={() => setAdd(false)} />}
+        {UpdateRoomOpen && <UpdateRoom data={RoomToUpdate} onClose={() => setUpdateRoomOpen(false)} />}
 
-    {Add && <AddRoom />}
         <table className="w-full">
-            <thead>
-                <tr className="text-center bg-green-400 items-center">
-                    <th className='font-bold justify-center border-r-2 p-2 '>Room Number</th>
-                    <th className='font-bold justify-center border-r-2 p-2 '>Available</th>
-                    <th className='font-bold justify-center border-r-2 p-2 '>Capacity</th>
-                    <th className='font-bold justify-center border-r-2 p-2 '>Price</th>
-                    <th className='font-bold justify-center border-r-2 p-2 hidden '>Description</th>
-                    <th className='font-bold justify-center border-r-2 p-2 '>Edit</th>
-                    <th className='font-bold justify-center border-r-2 p-2 '>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                {rooms?.map((room, index) => (
-                   <tr key={room._id} className={index % 2 === 0 ? 'bg-gray-100 border-b-2' : 'bg-gray-300 border-b-2'}>
-                        <td  className='  text-center justify-center border-r-2 p-2 '>{room.roomNumber}</td>
-                        <td onClick={()=>handleAvailability(room._id,room.availability)} className={`cursor-pointer text-center justify-center border-r-2 p-2 rounded-full  ${room.availability ? 'bg-green-600' : 'text-red-600'}`}>
-                        {room.availability ? 'Yes' : 'No'}
-                       </td>
+          <thead>
+            <tr className="text-center bg-green-400 items-center">
+              <th className="font-bold justify-center border-r-2 p-2 ">
+                Room Number
+              </th>
+              <th className="font-bold justify-center border-r-2 p-2 ">
+                Available
+              </th>
+              <th className="font-bold justify-center border-r-2 p-2 ">
+                Capacity
+              </th>
+              <th className="font-bold justify-center border-r-2 p-2 ">
+                Price
+              </th>
+              <th className="font-bold justify-center border-r-2 p-2 hidden ">
+                Description
+              </th>
+              <th className="font-bold justify-center border-r-2 p-2 ">Edit</th>
+              <th className="font-bold justify-center border-r-2 p-2 ">
+                Delete
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {rooms?.map((room, index) => (
+              <tr
+                key={room._id}
+                className={
+                  index % 2 === 0
+                    ? "bg-gray-100 border-b-2"
+                    : "bg-gray-300 border-b-2"
+                }
+              >
+                <td className="  text-center justify-center border-r-2 p-2 ">
+                  {room.roomNumber}
+                </td>
+                <td
+                  onClick={() =>
+                    handleAvailability(room._id, room.availability)
+                  }
+                  className={`cursor-pointer text-center justify-center border-r-2 p-2 rounded-full  ${
+                    room.availability ? "bg-green-600" : "text-red-600"
+                  }`}
+                >
+                  {room.availability ? "Yes" : "No"}
+                </td>
 
-                        <td className=' text-center justify-center border-r-2 p-2 '>{room.capacity}</td>
-                        <td className=' text-center justify-center border-r-2 p-2 '>{room.pricePerNight}</td>
-                        <td className='  text-center justify-center border-r-2 p-2 hidden  max-w-2xl'>{room.description}</td>
+                <td className=" text-center justify-center border-r-2 p-2 ">
+                  {room.capacity}
+                </td>
+                <td className=" text-center justify-center border-r-2 p-2 ">
+                  {room.pricePerNight}
+                </td>
+                <td className="  text-center justify-center border-r-2 p-2 hidden  max-w-2xl">
+                  {room.description}
+                </td>
 
-                        <td className=' text-center justify-center border-r-2 p-2 '>Edit</td>
-                      
-                        <td  onClick={() => handleDelete(room._id)} className='border-b-2 cursor-pointer text-center justify-center border-r-2 p-2 bg-red-600 rounded-lg'><button>Delete</button></td>
-                        
-                    </tr>
-                ))}
-            </tbody>
+                <td className="border-b-2 cursor-pointer text-center justify-center border-r-2 p-2 bg-blue-600 rounded-lg"
+                   onClick={()=>handleRoomUpdate(room)}
+                >
+                  Edit
+                
+                </td>
 
+                <td
+                  onClick={() => handleDelete(room._id)}
+                  className="border-b-2 cursor-pointer text-center justify-center border-r-2 p-2 bg-red-600 rounded-lg"
+                >
+                  <button>Delete</button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
         </table>
-    </div>
-  );
+      </div>
+    );
 }
 
 

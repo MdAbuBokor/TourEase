@@ -1,131 +1,3 @@
-
-// import { useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
-
-// const AddRoom = ({onClose}) => {
-//   const [formData, setFormData] = useState({});
-
-//   const [uploadSuccess, setUploadSuccess] = useState(false);
-//   const [error, setError] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const navigate = useNavigate();
-//   const { currentAccommodation } = useSelector((state) => state.accommodation);
-
- 
-
-
-  
-
-//   const handleChange = (e) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.id]: e.target.value,
-//     });
-//   };
-
-
-
-
-
-
-
-
-
- 
-
-
-//   return (
-
-
-      
-//     <div className="bg-black bg-opacity-70 h-full w-full z-10 absolute top-0 left-0">
-      
-   
-//     <div className='p-3 max-w-lg mx-auto bg-white shadow-slate-500 rounded-lg'>
-//     <button
-//          className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 hover:font-semibold disabled:opacity-80 right-0'
-//          onClick={onClose}
-        
-//         >
-//           Close
-//         </button>
-     
-
-//       <h1 className='text-3xl text-center font-semibold my-7'>Add New Room</h1>
-
-//       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-     
-
-//         <label htmlFor="roomNumber">Room Number:</label>
-//         <input type="number" placeholder='Room Number' className='border p-3 rounded-lg' id='roomNumber' onChange={handleChange} />
-//         <label htmlFor="roomType">Room Type:</label>
-//         <select placeholder='Room Type' className='border p-3 rounded-lg' id='roomType' onChange={handleChange}>
-//         <option  value="singleRoom">Single Room</option>
-//         <option value="studio">Studio</option>
-//         <option value="adjoiningRoom">Adjoining Room</option>
-//         <option value="deluxeRoom">Deluxe Room</option>
-//         <option value="doubleRoom">Double Room</option>
-//         <option value="presidentialSuite">Presidential Suite</option>
-//         <option value="cabana">Cabana</option>
-//         <option value="suite">Suite</option>
-//         <option value="twin">Twin</option>
-//         <option value="quadRoom">Quad Room</option>
-//         <option value="queenRoom">Queen Room</option>
-//         <option value="kingRoom">King Room</option>
-//         <option value="penthouse">Penthouse</option>
-//         <option value="tripleRoom">Triple Room</option>
-//         <option value="murphyRoom">Murphy Room</option>
-//         <option value="villa">Villa</option>
-//         <option value="accessibleRoom">Accessible Room</option>
-//         <option value="apartments">Apartments</option>
-//         <option value="balconyRoom">Balcony Room</option>
-//         <option value="duplex">Duplex</option>
-//         <option value="miniSuiteHotelRoom">Mini Suite Hotel Room</option>
-//         <option value="others">Others</option>
-//         {/* Add more options as needed */}
-//         </select>
-
-
-//         <label htmlFor="capacity">Capacity:</label>
-//         <input type="number" placeholder='Capacity' className='border p-3 rounded-lg' id='capacity' onChange={handleChange} />
-
-//         <label htmlFor="pricePerNight">Price Per Night:</label>
-//         <input type="number" placeholder='Price Per Night' className='border p-3 rounded-lg' id='pricePerNight' onChange={handleChange} />
-        
-        
-
-
-//         {/* ... Other form inputs ... */}
-
-        
-
-//         <button
-//           disabled={loading}
-//           className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 hover:font-semibold disabled:opacity-80'
-//         >
-//           {loading ? 'Loading' : 'Add  Room'}
-//         </button>
-
-//       </form>
-      
-     
-
-//       {error && <p className='text-red-500 mt-5'>{error}</p>}
-     
-
-
-//     </div>
-//     </div>
-//     ) 
-// };
-
-// export default AddRoom;
-
-
-
-
-
 import {
   getDownloadURL,
   getStorage,
@@ -137,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { app } from "../firebase.js";
 
-export default function AddRoom({onClose}) {
+export default function UpdateRoom({data,onClose}) {
 
 
   const [file, setfile] = useState(undefined);
@@ -208,38 +80,37 @@ export default function AddRoom({onClose}) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+     console.log(formData)
     try {
-      setLoading(true);
-
-
-      // Replace the endpoint and method with your actual API endpoint and method
-      const res = await fetch(`/api/room/createRoom/${currentAccommodation._id}`, {
-        method: 'POST',
+        setLoading(true)
+        
+      
+      const res = await fetch(`/api/room/updateRoom/${currentAccommodation._id}?roomId=${data._id}`, {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
-     // console.log(JSON.stringify(formData))
-
-      const data = await res.json();
-      if (data.success === false) {
-        setError(data.message);
-        setLoading(false);
+      const data1 = await res.json();
+      if (data1.success === false) {
+       setError(data1.message)
+       setLoading(false)
         return;
       }
 
-      setLoading(false);
-      setError(null);
-      setUploadSuccess(true);
-      navigate('/accommodation'); // Redirect to the accommodations page after successful creation
-    } catch (err) {
-      setLoading(false);
-      setError(err.message);
+     setLoading(false)
+     setError(null)
+     
+
+      //    console.log(data)
+    } catch (er) {
+        console.log(er.message)
+      setError(er.message)
+      setLoading(false)
     }
     Swal.fire({
-      title: "Room Added Succesfully!",
+      title: "Updated Succesfully!",
       icon: "success"
     });
     onClose()
@@ -257,7 +128,7 @@ export default function AddRoom({onClose}) {
         <div className="">
           <div className="images lg:h-1/2 rounded-lg shadow-md">
             <div className="active-image mb-2 lg:mb-0">
-              <img className="h-full" src={ formData.photo ? formData.photo : "https://media.designcafe.com/wp-content/uploads/2023/07/05141750/aesthetic-room-decor.jpg" } alt="" />
+              <img className="h-full" src={ formData.photo || data.photo } alt="" />
               
               <input
                   onChange={(e) => setfile(e.target.files[0])}
@@ -270,7 +141,7 @@ export default function AddRoom({onClose}) {
                   onClick={() => fileRef.current.click()}
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 rounded w-full"
                 >
-                  Add Image
+                  Change Image
                 </button>
             </div>
 
@@ -305,7 +176,7 @@ export default function AddRoom({onClose}) {
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
-                 
+                  defaultValue={data.roomNumber}
                   id="roomNumber"
                   onChange={handleChange}
 
@@ -317,7 +188,7 @@ export default function AddRoom({onClose}) {
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
-                 
+                  defaultValue={data.roomType}
                   id="roomType"
                   onChange={handleChange}
                 />
@@ -328,7 +199,7 @@ export default function AddRoom({onClose}) {
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
-                
+                  defaultValue={data.capacity}
                   id="capacity"
                   onChange={handleChange}
                 />
@@ -339,7 +210,7 @@ export default function AddRoom({onClose}) {
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
-                  
+                  defaultValue={data.pricePerNight}
                   id="pricePerNight"
                   onChange={handleChange}
                 />
@@ -350,13 +221,13 @@ export default function AddRoom({onClose}) {
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1 "
-                
+                  defaultValue={data.description}
                   id="description"
                   onChange={handleChange}
                 />
               </div>
 
-              
+
 
               {/* <div>
               <label className="text-gray-600">Availability:</label>
@@ -385,18 +256,17 @@ export default function AddRoom({onClose}) {
                 <input
                   type="text"
                   className="font-semibold border-b-2 w-full py-1"
-               
+                  defaultValue={data.bedType}
                   id="bedType"
                   onChange={handleChange}
                   
                 />
               </div>
-              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full">Add Room</button>
+              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">Update</button>
             </div>
           </div>
         </div>
       </form>
-      {error && <p className="text-red-500 mt-5">{error}</p>}
       <button onClick={onClose}  className="bg-red-500 text-white px-4 py-2 rounded-lg">Close</button>
       </div>
     </div>
