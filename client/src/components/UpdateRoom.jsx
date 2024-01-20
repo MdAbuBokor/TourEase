@@ -122,7 +122,7 @@ export default function UpdateRoom({data,onClose}) {
 
   return (
     <div className=" bg-black bg-opacity-70 h-full w-full z-10 absolute top-0 left-0">
-      <div className="p-3 max-w-lg mx-auto bg-white shadow-slate-500 rounded-lg">
+      <div className="p-3 max-w-lg mx-auto relative bg-white shadow-slate-500 rounded-lg">
       {/* Images Section */}
      
         <div className="">
@@ -170,7 +170,7 @@ export default function UpdateRoom({data,onClose}) {
           <div className="bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4">Room Information</h2>
             {/* ... Your room information components ... */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="">
               <div>
                 <label className="text-gray-600">Room Number:</label>
                 <input
@@ -262,13 +262,24 @@ export default function UpdateRoom({data,onClose}) {
                   
                 />
               </div>
-              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg">Update</button>
+              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full">Update</button>
+           
             </div>
+
           </div>
         </div>
+
       </form>
-      <button onClick={onClose}  className="bg-red-500 text-white px-4 py-2 rounded-lg">Close</button>
+      <button
+  onClick={onClose}
+  className="bg-red-500 text-white px-4 py-2 rounded-lg absolute top-0 right-0"
+>
+  Close
+</button>
+
+
       </div>
+
     </div>
   );
 }

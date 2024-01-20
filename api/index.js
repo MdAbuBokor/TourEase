@@ -4,6 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 import accommodationRouter from "./routes/accommodation.route.js";
 import authRouter from "./routes/auth.route.js";
+import bookingRouter from "./routes/booking.route.js";
 import roomRouter from "./routes/room.route.js";
 import userRouter from "./routes/user.route.js";
 dotenv.config();
@@ -30,6 +31,8 @@ app.use("/api/auth", authRouter);
 
 app.use("/api/accommodation", accommodationRouter);
 app.use("/api/room", roomRouter);
+
+app.use("/api/booking", bookingRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
