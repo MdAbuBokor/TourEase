@@ -139,3 +139,12 @@ export const getRoom = async (req, res, next) => {
     next(error);
   }
 };
+
+export const getAllRoom = async (req, res, next) => {
+  try {
+    const AllRoom = await Room.find();
+    res.status(200).json(AllRoom);
+  } catch (error) {
+    next(error);
+  }
+};

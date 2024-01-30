@@ -12,10 +12,10 @@ const accommodationSchema = new mongoose.Schema(
       default:
         "https://media.radissonhotels.net/image/radisson-blu-hotel-dhaka-water-garden/exterior/16256-113891-f63612886_3xl.jpg?impolicy=HomeHero",
     },
-    title: { type: String },
+    title: { type: String, default: "A good place to stay" },
     description: { type: String },
     images: [{ type: String }],
-    rating: { type: Number, default: 0, min: 0, max: 5 },
+    rating: { type: Number, default: 5, min: 0, max: 5 },
     facilities: [String],
     map_location: {
       type: Schema.Types.ObjectId,

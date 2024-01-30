@@ -85,7 +85,7 @@ export const googleAccommodation = async (req, res, next) => {
       res
         .cookie("acc_access_token ", token, { httpOnly: true })
         .status(200)
-        .json(user._doc);
+        .json(accommodation._doc);
     } else {
       res.send("Accommodation not found");
     }
@@ -170,6 +170,19 @@ export const getRooms = async (req, res, next) => {
       roomNumber: 1,
     });
     res.status(200).json(rooms);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAcByLoc = async (req, res, next) => {
+  try {
+    const location = req.query.location;
+
+    // Fetch accommodations based on the location
+    const Acc = await Accommodation.find({ location }).select("-password");
+
+    res.status(200).json(Acc);
   } catch (error) {
     next(error);
   }

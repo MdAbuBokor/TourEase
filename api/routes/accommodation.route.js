@@ -3,6 +3,7 @@ import express from "express";
 import {
   createAccommodation,
   deleteAccommodation,
+  getAcByLoc,
   getAccommodationInfo,
   getRooms,
   googleAccommodation,
@@ -26,5 +27,6 @@ router.delete("/deleteAccommodation/:id", verifyToken, deleteAccommodation);
 router.get("/getAccommodation/:id", getAccommodationInfo);
 router.get("/getrooms/:id", getRooms);
 router.get("/signOutAccommodation", signOutAccommodation);
+router.get("/getAccommodationByLocation/", getAcByLoc);
 
 export default router;

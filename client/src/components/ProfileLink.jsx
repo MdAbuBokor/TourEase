@@ -13,7 +13,7 @@ const ProfileLink = () => {
             <img className='rounded-full h-7 w-7 object-cover' src={currentUser.avatar} alt="profile_pic" />
           </Link>
 
-          <Link to='/accomodation/create'>
+          <Link to='/accommodation/create'>
             <button className='border p-1 rounded-lg bg-slate-700 text-white uppercase hover:opacity-90 disabled:opacity-60'>
               Accommodation
             </button>

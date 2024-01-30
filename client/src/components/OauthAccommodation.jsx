@@ -3,7 +3,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { app } from '../firebase.js';
-import { signInSuccess } from '../redux/accommodation/accommodationSlice.js';
+import { signInFailure, signInStart, signInSuccess } from '../redux/accommodation/accommodationSlice.js';
 
 
 
@@ -14,9 +14,11 @@ export default function OauthAccommodation() {
 
   const handleGoogleClick = async() => {
     try {
+      dispatch(signInStart());
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
+      console.log(result.user.email)
       const res = await fetch('/api/accommodation/googleAccommodation', {
         method: 'POST',
         headers: {
@@ -25,8 +27,10 @@ export default function OauthAccommodation() {
         body: JSON.stringify({
           email: result.user.email
         })
+      //  console.log(body)
       })
       const data = await res.json();
+      console.log(data)
       dispatch(signInSuccess(data));
       navigate("/accommodation");
       //console.log(result);
@@ -35,6 +39,7 @@ export default function OauthAccommodation() {
         
     } catch (error) {
         console.log('could not sign in with google',error);
+        dispatch(signInFailure(error.message));
     }
 }
   return (

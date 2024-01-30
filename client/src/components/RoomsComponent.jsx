@@ -7,6 +7,7 @@ import UpdateRoom from './UpdateRoom';
 
 export default function RoomsComponent() {
   const { currentAccommodation } = useSelector(state => state.accommodation);
+  console.log(currentAccommodation)
   const { data, loading, error } = useFetch(
     "/api/accommodation/getRooms/" + currentAccommodation._id
   );

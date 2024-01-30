@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 export default function HeaderAccomodation() {
   const { currentAccommodation } = useSelector(state => state.accommodation);
 
+
   return (
     <header className='bg-slate-200 shadow-md'>
       <div className="flex justify-between items-center mx-auto p-3">
@@ -19,12 +20,12 @@ export default function HeaderAccomodation() {
           <Link to='/accommodation'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
           </Link>
-          <Link to='/about'>
+          <Link to='/accommodation/about'>
             <li className='hidden sm:inline text-slate-700 hover:underline'>About</li>
           </Link>
 
           {currentAccommodation ? (
-            <Link to='/accommodation/profile'>
+            <Link to='/accommodation/update'>
               <img className='rounded-full h-7 w-7 object-cover' src={currentAccommodation.avatar} alt="profile_pic" />
             </Link>
           ) : (
