@@ -1,0 +1,26 @@
+[
+  {
+    "place-name": "Cox-Bazar",
+    "place-img": "https://images.unsplash.com/photo-1608958435020-e8a7109ba809?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y294JTIwYmF6YXIlMjBzZWElMjBiZWFjaHxlbnwwfHwwfHx8MA%3D%3D"
+  },
+  {
+    "place-name": "Kuakata",
+    "place-img": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/a9/8b/44/sea-beach.jpg?w=1200&h=-1&s=1"
+  },
+  {
+    "place-name": "Sajek-Valley",
+    "place-img": "https://tbbd-flight.s3.ap-southeast-1.amazonaws.com/blogzB8BGDn5J45LisskNSi5r3F07ohqWXZ4.png"
+  },
+  {
+    "place-name": "Rangamati",
+    "place-img": "https://upload.wikimedia.org/wikipedia/commons/9/95/Kaptai_Lake_%2819833365911%29.jpg"
+  },
+  {
+    "place-name": "Sundarbans",
+    "place-img": "https://dailyindustry.news/wp-content/uploads/2023/04/Sundarban.jpg"
+  },
+  {
+    "place-name": "Saint-Martin",
+    "place-img": "https://a.cdn-hotels.com/gdcs/production105/d283/fe692f6d-a1b6-47c6-b2c0-39056ed2d7b7.jpg?impolicy=fcrop&w=800&h=533&q=medium"
+  }
+]

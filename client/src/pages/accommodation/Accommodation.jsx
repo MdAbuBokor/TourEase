@@ -1,8 +1,7 @@
-import React from 'react';
+
 import HeaderAccomodation from '../../components/Header.accommodation';
 import RoomsComponent from '../../components/RoomsComponent';
 import SidebarNew from '../../components/Sidebar/SidebarNew';
-import SingleRoomShow from '../../components/SingleRoomShow';
 
 function Accommodation() {
  
@@ -12,9 +11,18 @@ function Accommodation() {
       <div className="flex-1 flex flex-col overflow-hidden">
         <HeaderAccomodation />
         <div className="flex-1 overflow-y-auto p-4 justify-center items-center ">
-        <p>Accomodation Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio quod facere eaque repudiandae dolorum inventore corrupti labore voluptatibus quae deserunt aliquid harum tempore, a sint ad est iste similique minima.lorem Lorem ipsum dolor sit amet consectetur adipisicing elit. Aperiam debitis ut maxime ratione numquam excepturi, eum, aspernatur, iusto tempora quam id quis iste cumque amet earum culpa blanditiis possimus tenetur. Lorem ipsum dolor sit amet consectetur, adipisicing elit. Officia illo facere laboriosam? Officiis alias voluptates quaerat! Iusto, sapiente adipisci numquam explicabo asperiores facilis repellendus molestias voluptatum. Quos fuga voluptatem voluptate! Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quod similique ea ipsa ut voluptatem? Fuga rerum tempora sed voluptatum hic. Nam sed qui veritatis fugiat, quia suscipit quas sunt obcaecati!</p>
+
+       
+        <div className="grid gap-4 lg:grid-cols-3 md:grid-cols-2 ">
+          <div className="p-10 bg-blue-600 text-3xl font-bold text-white rounded-xl shadow-2xl flex justify-center  ">
+            Total Room : 10
+          </div>
+          <div className="p-10 bg-blue-600 text-3xl font-bold text-white rounded-xl shadow-2xl flex justify-center ">
+            Available Room : 07
+          </div>
+        </div>
         <RoomsComponent />
-        <SingleRoomShow roomId="6586e02f3a8d8a651c0a7a48"/>
+        
        
        
 

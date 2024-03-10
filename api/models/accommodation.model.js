@@ -5,8 +5,8 @@ const accommodationSchema = new mongoose.Schema(
     email: { type: String, required: true },
     password: { type: String, required: true },
     name: { type: String, required: true },
-    location: { type: String, required: true },
-    type: { type: String, required: true },
+    location: { type: String, default: "Kuakata" },
+    type: { type: String, default: "hotel" },
     avatar: {
       type: String,
       default:
@@ -14,7 +14,6 @@ const accommodationSchema = new mongoose.Schema(
     },
     title: { type: String, default: "A good place to stay" },
     description: { type: String },
-    images: [{ type: String }],
     rating: { type: Number, default: 5, min: 0, max: 5 },
     facilities: [String],
     map_location: {

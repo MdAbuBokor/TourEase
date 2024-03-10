@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header.jsx';
@@ -7,8 +7,15 @@ import { signInFailure, signInStart, signInSuccess } from '../redux/user/userSli
 export default function SignIn() {
 const [formData, setFormData]=useState({});
 const dispatch = useDispatch();
-const {loading,error} =useSelector((state)=>state.user)
+const {currentUser,loading,error} =useSelector((state)=>state.user)
 const navigate = useNavigate();
+
+useEffect(() => {
+
+  if (currentUser) {
+    navigate('/');
+  }
+}, [currentUser, navigate]);
 const handleChange = (e)=>{
   setFormData({
     ...formData,
@@ -56,13 +63,24 @@ dispatch(signInSuccess(data))
  <form onSubmit={handleSubmit} action="" className='flex flex-col gap-4'>
 
   
-  <input type="text" placeholder='email' className='border p-3 rounded-lg ' id='email' onChange={handleChange} />
-  
-  <input type="password" placeholder='password' className='border p-3 rounded-lg ' id='password' onChange={handleChange} />
+ <label className="input input-bordered flex items-center gap-2">
+ <span className="min-w-[25%]">Email</span>
+  <input type="email" placeholder='email ' className=' p-2 border-l w-full  ' id ='email' onChange={handleChange}/>
+</label>
+<label className="input input-bordered flex items-center gap-2">
+ <span className="min-w-[25%]">Password</span>
+  <input type="password"  placeholder='password ' className=' p-2 border-l w-full  ' id ='password' onChange={handleChange}/>
+</label>
+  <button disabled ={loading} className='btn btn-primary'>{loading ?'Loading' : 'Sign In'}</button>
 
-  <button disabled ={loading} className='bg-slate-700 text-white p-3  rounded-lg uppercase hover:font-semibold hover:opacity-95 disabled:opacity-80'>{loading ?'Loading' : 'Sign In'}</button>
+
+
+
+  
+  
   <Oauth />
  </form>
+
  <div className='flex gap-2 mt-5'>
   <p>Dont have an account?</p>
   <Link to ={"/signup"}>

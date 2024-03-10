@@ -1,9 +1,9 @@
 import {
-    APIProvider,
-    AdvancedMarker,
-    InfoWindow,
-    Map,
-    Pin
+  APIProvider,
+  AdvancedMarker,
+  InfoWindow,
+  Map,
+  Pin
 } from "@vis.gl/react-google-maps";
 import React, { useState } from "react";
 

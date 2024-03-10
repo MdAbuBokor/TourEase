@@ -1,13 +1,18 @@
 import React from 'react';
-import AcBoard from '../components/AcBoard';
+import Banner from '../components/Banner';
+import Footer from '../components/Footer';
+import Places from '../components/Places';
 import Header from './../components/Header';
 
 export default function Home() {
   return (
-    <div>
+    <div className=''>
       <Header />
-      <AcBoard/>
-      home
+      <Banner />
+      <Places/>
+      <Footer />
+
+
     </div>
   )
 }

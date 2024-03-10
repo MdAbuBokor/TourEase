@@ -1,29 +1,30 @@
 import {
-  getDownloadURL,
-  getStorage,
-  ref,
-  uploadBytesResumable,
+    getDownloadURL,
+    getStorage,
+    ref,
+    uploadBytesResumable,
 } from "firebase/storage";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import HeaderAccomodation from "../../components/Header.accommodation.jsx";
 import { InputMap } from "../../components/InputMap.jsx";
 import MapShow from "../../components/MapShow.jsx";
 import SidebarNew from "../../components/Sidebar/SidebarNew.jsx";
 
+import Swal from "sweetalert2";
 import { app } from "../../firebase.js";
 import {
-  updateFailure,
-  updateStart,
-  updateSuccess,
+    signOutFailure,
+    signOutStart,
+    signOutSuccess,
+    updateFailure,
+    updateStart,
+    updateSuccess,
 } from "../../redux/accommodation/accommodationSlice.js";
-// firebase storage code
-// allow read;
-// allow write: if
-// request.resource.size <2*1024*1024 &&
-// request.resource.contentType.matches('image/.*')
+
 
 export default function Profile() {
+  const [ok, setok] = useState(false);
   const [file, setfile] = useState(undefined);
   const fileRef = useRef(null);
   const { currentAccommodation, loading, error } = useSelector(
@@ -101,6 +102,7 @@ export default function Profile() {
       }
 
       dispatch(updateSuccess(data));
+      setok(true)
 
       //    console.log(data)
     } catch (error) {
@@ -108,114 +110,51 @@ export default function Profile() {
     }
   };
 
-  // const handleDelete = async ()=>{
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You won't be able to revert this!",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "Yes, delete it!"
-  //   }).then(async(result) => {
-  //     if (result.isConfirmed) {
-  //       try {
-  //         dispatch(deleteUserStart());
-  //         const res =await fetch(`/api/user/delete/${currentUser._id}`,{
-  //           method: 'DELETE',
-  //           headers:{
-  //             'Content-Type': 'application/json'
-  //           },
-  //           body: JSON.stringify(),
-  //         })
-  //         const data = await res.json();
-  //        if(data.success===false){
-  //           dispatch(deleteUserFailure(data.message));
-  //           return;
-  //         }
+  const handleSignOut = async ()=>{
+    Swal.fire({
+      title: "Are you sure to Signout?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "SignOut"
+    }).then(async(result) => {
+      if (result.isConfirmed) {
+        try {
+          dispatch(signOutStart());
+          const res =await fetch(`/api/auth/signout`,{
+            method: 'GET',
+            headers:{
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(),
+          })
+          const data = await res.json();
+         if(data.success===false){
+            dispatch(signOutFailure(data.message));
+            return;
+          }
+    
+          dispatch(signOutSuccess(data));
+          Swal.fire({
+            title: "SignOut!",
+            icon: "success"
+          });
+       
+      //    console.log(data)
+          
+        }
+        catch (error) {
+            dispatch(signOutFailure(error.message));
+          
+        }
 
-  //         dispatch(deleteUserSuccess(data));
-  //         Swal.fire({
-  //           title: "Deleted!",
-  //           text: "User has been deleted.",
-  //           icon: "success"
-  //         });
+      }
+    });
 
-  //     //    console.log(data)
-
-  //       }
-  //       catch (error) {
-  //         dispatch(deleteUserFailure(error.message));
-
-  //       }
-
-  //     }
-  //   });
-
-  //  // console.log(formData)
-
-  // }
-
-  // const handleSignOut = async ()=>{
-  //   Swal.fire({
-  //     title: "Are you sure to Signout?",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#3085d6",
-  //     cancelButtonColor: "#d33",
-  //     confirmButtonText: "SignOut"
-  //   }).then(async(result) => {
-  //     if (result.isConfirmed) {
-  //       try {
-  //         dispatch(signOutStart());
-  //         const res =await fetch(`/api/auth/signout`,{
-  //           method: 'GET',
-  //           headers:{
-  //             'Content-Type': 'application/json'
-  //           },
-  //           body: JSON.stringify(),
-  //         })
-  //         const data = await res.json();
-  //        if(data.success===false){
-  //           dispatch(signOutFailure(data.message));
-  //           return;
-  //         }
-
-  //         dispatch(signOutSuccess(data));
-
-  //     //    console.log(data)
-
-  //       }
-  //       catch (error) {
-  //           dispatch(signOutFailure(error.message));
-
-  //       }
-  //       Swal.fire({
-  //         title: "SignOut!",
-  //         icon: "success"
-  //       });
-  //     }
-  //   });
-
-  //   // console.log(formData)
-
-  //  }
- // console.log(mapCenter)
-// let loc={};
-//  function getLocation() {
-//   if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition(showPosition);
-//   } else {
-//     loc={success:false}
-//   }
-// }
-// function showPosition(position) {
-//   loc={success:true,latitude:position.coords.latitude,longitude:position.coords.longitude}
-// }
-
-//getLocation();
-//location.success=false;
-//location.latitude=12.23;
+    // console.log(formData)
+     
+   }
 
 
 
@@ -243,7 +182,7 @@ export default function Profile() {
                   onClick={() => fileRef.current.click()}
                   src={formData.avatar || currentAccommodation?.avatar}
                   alt=" profile_pic"
-                  className="w-24 h-24 rounded-full mx-auto cursor-pointer"
+                  className="w-100   mx-auto cursor-pointer"
                 />
 
                 <p className="text-sm self-center">
@@ -266,6 +205,7 @@ export default function Profile() {
                 <input
                   type="text"
                   placeholder={currentAccommodation?.name}
+                  defaultValue={currentAccommodation?.name}
                   className="border p-3 rounded-lg"
                   id="name"
                   onChange={handleChange}
@@ -275,6 +215,7 @@ export default function Profile() {
                 <input
                   type="email"
                   placeholder={currentAccommodation?.email}
+                  defaultValue={currentAccommodation?.email}
                   className="border p-3 rounded-lg"
                   id="email"
                   onChange={handleChange}
@@ -293,6 +234,7 @@ export default function Profile() {
                 <select
                   className="border p-3 rounded-lg"
                   id="type"
+                  defaultValue={currentAccommodation?.type}
                   onChange={handleChange}
                 >
                   <option value="hotel">Hotel</option>
@@ -307,10 +249,20 @@ export default function Profile() {
                 <label htmlFor="location">Location:</label>
                 <input
                   type="text"
-                  value={currentAccommodation?.location}
                   placeholder={currentAccommodation?.location}
+                  defaultValue={currentAccommodation?.location}
                   className="border p-3 rounded-lg "
                   id="location"
+                  onChange={handleChange}
+                />
+                
+                <label htmlFor="description">Description:</label>
+                <textarea
+                  type="text"
+                  placeholder={currentAccommodation?.description}
+                  defaultValue={currentAccommodation?.description}
+                  className="border p-3 rounded-lg "
+                  id="description"
                   onChange={handleChange}
                 />
                 <div className="">
@@ -338,8 +290,9 @@ export default function Profile() {
 
               <p className="text-red-700 mt-5">{error ? error : ""}</p>
               <p className="text-green-700 mt-5">
-                {updateSuccess ? "Profile updated successfully" : ""}
+                {ok ? "Profile updated successfully" : ""}
               </p>
+              <button onClick={handleSignOut } className="border p-3 rounded-lg bg-red-700 text-white uppercase hover:opacity-90 disabled:opacity-60">SignOut</button>
             </div>
           </div>
         </div>

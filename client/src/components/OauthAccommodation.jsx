@@ -18,7 +18,7 @@ export default function OauthAccommodation() {
       const provider = new GoogleAuthProvider();
       const auth = getAuth(app);
       const result = await signInWithPopup(auth, provider);
-      console.log(result.user.email)
+    
       const res = await fetch('/api/accommodation/googleAccommodation', {
         method: 'POST',
         headers: {
@@ -30,7 +30,7 @@ export default function OauthAccommodation() {
       //  console.log(body)
       })
       const data = await res.json();
-      console.log(data)
+    
       dispatch(signInSuccess(data));
       navigate("/accommodation");
       //console.log(result);

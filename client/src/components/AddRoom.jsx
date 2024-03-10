@@ -200,7 +200,7 @@ export default function AddRoom({onClose}) {
       ...formData,
       [e.target.id]: e.target.value,
     });
-    console.log(formData)
+   
   };
 
  
@@ -250,7 +250,7 @@ export default function AddRoom({onClose}) {
   };
 
   return (
-    <div className=" bg-black bg-opacity-70 h-full w-full z-10 absolute top-0 left-0">
+    <div className="">
       <div className="p-3 max-w-lg mx-auto bg-white shadow-slate-500 rounded-lg">
       {/* Images Section */}
      
@@ -391,13 +391,13 @@ export default function AddRoom({onClose}) {
                   
                 />
               </div>
-              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full">Add Room</button>
+              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full col-span-2">Add Room</button>
             </div>
           </div>
         </div>
       </form>
       {error && <p className="text-red-500 mt-5">{error}</p>}
-      <button onClick={onClose}  className="bg-red-500 text-white px-4 py-2 rounded-lg">Close</button>
+      
       </div>
     </div>
   );

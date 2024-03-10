@@ -48,12 +48,14 @@ export const signInAccommodation = async (req, res, next) => {
   try {
     const { email, password } = req.body;
     const accExist = await Accommodation.findOne({ email });
+
     if (!accExist) return next(errorHandler(404, "Accommodation not found"));
     const isMatch = bcryptjs.compareSync(password, accExist.password);
     if (!isMatch) return next(errorHandler(400, "Wrong Password"));
+    const { password: pass, ...rest } = accExist._doc;
 
     const token = jwt.sign({ id: accExist._id }, process.env.JWT_SECRET);
-    const { password: pass, ...rest } = accExist._doc;
+
     res
       .cookie("acc_access_token", token, { httpOnly: true })
       .status(200)
@@ -78,7 +80,7 @@ export const googleAccommodation = async (req, res, next) => {
   try {
     const accommodation = await Accommodation.findOne({
       email: req.body.email,
-    });
+    }).select("-password");
     if (accommodation) {
       const token = jwt.sign({ id: accommodation._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = accommodation._doc;

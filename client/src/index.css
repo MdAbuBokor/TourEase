@@ -8,7 +8,7 @@
 } */
 
 body {
-  background: linear-gradient(to right, #ffaacc, #ffbbcc);
+  /* background: rgb(203 213 225); */
   /* Replace #ff8a00 and #da1b60 with your desired color values */
   /* You can also customize the direction (to right, to left, to top, to bottom, etc.) */
 }

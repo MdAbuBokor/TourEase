@@ -80,7 +80,7 @@ const CreateAccommodation = () => {
      
 
         <label htmlFor="name">Name:</label>
-        <input type="text" placeholder='Name' className='border p-3 rounded-lg' id='name' onChange={handleChange} />
+        <input type="text" placeholder='Name'  className='border p-3 rounded-lg' id='name' onChange={handleChange} />
         
         <label htmlFor="email">Email:</label>
         <input type="email" placeholder='Email' className='border p-3 rounded-lg' id='email' onChange={handleChange} />
@@ -91,7 +91,7 @@ const CreateAccommodation = () => {
        
 
         <label htmlFor="type">Accommodation Type:</label>
-        <select className='border p-3 rounded-lg' id='type' onChange={handleChange}>
+        <select className='border p-3 rounded-lg'  id='type' defaultValue="hotel" onChange={handleChange}>
         <option value="hotel">Hotel</option>
         <option value="apartment">Apartment</option>
         <option value="villa">Villa</option>
@@ -100,13 +100,25 @@ const CreateAccommodation = () => {
         <option value="others">Others</option>
         {/* Add more options as needed */}
         </select>
-
-
-
-
-
+        
         <label htmlFor="location">Location:</label>
-        <input type="text" placeholder='Location' className='border p-3 rounded-lg ' id='location' onChange={handleChange} />
+        <select className='border p-3 space-y-2 rounded-lg' id='location' onChange={handleChange} defaultValue="kuakata">
+        <option value="kuakata">Kuakata</option>
+        <option value="cox-bazar">Cox-Bazar</option>
+        <option value="sajek">Sajek-Valley</option>
+        <option value="rangamati">Rangamati</option>
+        <option value="sundarbans">Sundarbans</option>
+        <option value="saint-martin">Saint-Martin</option>
+    
+        {/* Add more options as needed */}
+        </select>
+
+
+
+
+
+        {/* <label htmlFor="location">Location:</label>
+        <input type="text" placeholder='Location' className='border p-3 rounded-lg ' id='location' onChange={handleChange} /> */}
 
 
 

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   currentUser: null,
+  roomToBook: null,
   error: null,
   loading: false,
 };
@@ -64,6 +65,9 @@ const userSlice = createSlice({
       state.error = action.payload;
       state.loading = false;
     },
+    roomSelction: (state, action) => {
+      state.roomToBook = action.payload;
+    },
   },
 });
 
@@ -80,6 +84,7 @@ export const {
   signOutStart,
   signOutSuccess,
   signOutFailure,
+  roomSelction,
 } = userSlice.actions;
 
 export default userSlice.reducer;

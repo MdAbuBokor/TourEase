@@ -25,6 +25,9 @@ const roomSchema = new mongoose.Schema({
   description: {
     type: String,
   },
+  alreadyBooked: {
+    type: [Date],
+  },
   availability: {
     type: Boolean,
     default: true,

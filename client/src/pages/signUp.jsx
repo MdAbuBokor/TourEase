@@ -57,21 +57,32 @@ const handleSubmit =async (e ) =>{
     <div className='p-3 max-w-lg mx-auto'>
       <h1 className='text-3xl text-center font-semibold my-7'>Sign Up</h1>
  <form onSubmit={handleSubmit} action="" className='flex flex-col gap-4'>
+ <label className="input input-bordered flex items-center gap-2">
+ <span className="min-w-[25%]">Username</span>
+  <input type="text"  placeholder='username ' className=' p-2 border-l w-full  ' id ='email' onChange={handleChange}/>
+</label>
 
-  <input type="text" placeholder='username' className='border p-3 rounded-lg' id='username' onChange={handleChange} />
-  
-  <input type="email" placeholder='email' className='border p-3 rounded-lg ' id='email' onChange={handleChange} />
-  
-  <input type="password" placeholder='password' className='border p-3 rounded-lg ' id='password' onChange={handleChange} />
+<label className="input input-bordered flex items-center gap-2">
+ <span className="min-w-[25%]">Email</span>
+  <input type="email"  placeholder='email ' className=' p-2 border-l w-full  ' id ='email' onChange={handleChange}/>
+</label>
+<label className="input input-bordered flex items-center gap-2">
+ <span className="min-w-[25%]">Password</span>
+  <input type="password"  placeholder='password ' className=' p-2 border-l w-full  ' id ='password' onChange={handleChange}/>
+</label>
 
-  <button disabled ={loading} className='bg-slate-700 text-white p-3  rounded-lg uppercase hover:opacity-95 hover:font-semibold disabled:opacity-80'>{loading ?'Loading' : 'Sign Up'}</button>
+ 
+
+
+
+  <button disabled ={loading} className='btn btn-primary'>{loading ?'Loading' : 'Sign Up'}</button>
   <Oauth/>
  </form>
 
  <div className='flex gap-2 mt-5'>
   <p>Have an account already?</p>
   <Link to ={"/signin"}>
-  <span className='text-blue-700 font-bold'>Sign in</span></Link>
+  <span className='font-bold'>Sign in</span></Link>
  </div>
 
  {error && ( <p className='text-red-500 mt-5'>{error}</p> ) }

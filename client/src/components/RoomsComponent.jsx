@@ -7,7 +7,7 @@ import UpdateRoom from './UpdateRoom';
 
 export default function RoomsComponent() {
   const { currentAccommodation } = useSelector(state => state.accommodation);
-  console.log(currentAccommodation)
+ 
   const { data, loading, error } = useFetch(
     "/api/accommodation/getRooms/" + currentAccommodation._id
   );
@@ -35,7 +35,7 @@ useEffect(() => {
 
 const handleAvailability = async (roomId,isAvailable)=>{
   Swal.fire({
-    title: "Are you sure?",
+    title: "Are you sure ?",
     icon: "warning",
     showCancelButton: true,
     confirmButtonColor: "#3085d6",
@@ -172,14 +172,20 @@ const handleRoomUpdate=(room)=>{
 
     return (
       <div className=" border-sky-200 border-2 rounded-lg mt-10 max-w-7xl">
-        <button
-          className="bg-sky-400 text-white p-2 rounded-lg"
-          onClick={() => setAdd(!Add)}
-        >
-          {Add ? "Close " : "Add Room + "}
-        </button>
+      
+        {/* You can open the modal using document.getElementById('ID').showModal() method */}
+<button className="btn btn-primary" onClick={()=>document.getElementById('my_modal_3').showModal()}>Add a Room</button>
+<dialog id="my_modal_3" className="modal">
+  <div className="modal-box">
+    <form method="dialog">
+      {/* if there is a button in form, it will close the modal */}
+      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+    </form>
+     <AddRoom onClose={() => setAdd(false)} />
+  </div>
+</dialog>
 
-        {Add && <AddRoom onClose={() => setAdd(false)} />}
+
         {UpdateRoomOpen && <UpdateRoom data={RoomToUpdate} onClose={() => setUpdateRoomOpen(false)} />}
 
         <table className="w-full">
@@ -207,6 +213,17 @@ const handleRoomUpdate=(room)=>{
             </tr>
           </thead>
           <tbody>
+            {
+              rooms?.length === 0 && (
+                <tr>
+                  <td colSpan={7} className="text-center text-xl font-bold p-10">
+                    No rooms found
+                    <br />
+                    <button onClick={() => setAdd(true)} className='bg-sky-400 text-white p-2 rounded-lg'>Add A Room</button>
+                  </td>
+                </tr>
+              )
+            }
             {rooms?.map((room, index) => (
               <tr
                 key={room._id}
