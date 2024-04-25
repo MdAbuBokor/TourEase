@@ -1,19 +1,37 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import {
-  signOutFailure,
-  signOutStart,
-  signOutSuccess,
-} from "../redux/user/userSlice";
+import { isAdmin } from "../../../middleware/isAdmin";
+import { signOutFailure, signOutStart, signOutSuccess } from "../../../redux/user/userSlice";
 
-export default function Header() {
+
+export default function HeaderAdmin() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [theme, setTheme] = useState(
     localStorage.getItem("theme") ? localStorage.getItem("theme") : "light"
   );
   const { currentUser } = useSelector((state) => state.user);
+  //console.log(currentUser._id);
+
+  const isAd = isAdmin(currentUser._id);
+  
+  if(!isAd){
+    Swal.fire({
+      title: "Error!",
+      text: "You are not an Admin",
+      icon: "error",
+      confirmButtonText: "Ok",
+    })
+    navigate("/")
+  }
+  useEffect(() => {
+    if(!isAd){
+      navigate("/")
+    }
+  }, [isAd])
+
 
   useEffect(() => {
     localStorage.setItem("theme", theme);

@@ -6,10 +6,10 @@ dotenv.config();
 
 export const createRoom = async (req, res, next) => {
   try {
-    req.body.accommodation = req.params.id;
-    if (req.accommodation.id !== req.params.id) {
-      return next(errorHandler(403, "You can create only your account!"));
-    }
+    // req.body.accommodation = req.params.id;
+    // if (req.accommodation.id !== req.params.id) {
+    //   return next(errorHandler(403, "You can create only your account!"));
+    // }
 
     const existingRoom = await Room.findOne({
       roomNumber: req.body.roomNumber,
@@ -43,9 +43,9 @@ export const createRoom = async (req, res, next) => {
 export const updateRoomInfo = async (req, res, next) => {
   try {
     // Ensure the user is updating their own account
-    if (req.accommodation.id !== req.params.id) {
-      return next(errorHandler(403, "You can update only your account!"));
-    }
+    // if (req.accommodation.id !== req.params.id) {
+    //   return next(errorHandler(403, "You can update only your account!"));
+    // }
 
     const roomId = req.query.roomId;
     const roomToUpdate = await Room.findById(roomId);
@@ -80,10 +80,10 @@ export const updateRoomInfo = async (req, res, next) => {
 
 export const AddNewImage = async (req, res, next) => {
   try {
-    // Ensure the user is updating their own account
-    if (req.accommodation.id !== req.params.id) {
-      return next(errorHandler(403, "You can update only your account!"));
-    }
+    // // Ensure the user is updating their own account
+    // if (req.accommodation.id !== req.params.id) {
+    //   return next(errorHandler(403, "You can update only your account!"));
+    // }
 
     const roomId = req.query.roomId;
     const roomToUpdate = await Room.findById(roomId);
@@ -109,9 +109,9 @@ export const AddNewImage = async (req, res, next) => {
 export const deleteRoom = async (req, res, next) => {
   try {
     // Ensure the user is deleting their own account
-    if (req.accommodation.id !== req.params.id) {
-      return next(errorHandler(403, "You can delete only your account!"));
-    }
+    // if (req.accommodation.id !== req.params.id) {
+    //   return next(errorHandler(403, "You can delete only your account!"));
+    // }
 
     // Find the room to be deleted
     await Room.findByIdAndDelete(req.query.roomId);

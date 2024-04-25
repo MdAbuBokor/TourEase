@@ -5,7 +5,9 @@ import mongoose from "mongoose";
 import accommodationRouter from "./routes/accommodation.route.js";
 import authRouter from "./routes/auth.route.js";
 import bookingRouter from "./routes/booking.route.js";
+import locationRouter from "./routes/location.route.js";
 import roomRouter from "./routes/room.route.js";
+import roomReviewRouter from "./routes/roomReview.route.js";
 import userRouter from "./routes/user.route.js";
 dotenv.config();
 
@@ -33,6 +35,8 @@ app.use("/api/accommodation", accommodationRouter);
 app.use("/api/room", roomRouter);
 
 app.use("/api/booking", bookingRouter);
+app.use("/api/review", roomReviewRouter);
+app.use("/api/location", locationRouter);
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;

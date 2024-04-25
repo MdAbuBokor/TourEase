@@ -82,6 +82,15 @@ export default function HeaderAccomodation() {
         </h1>
             </Link>
     </div>
+    <div className="flex flex-row space-x-2 mr-6 hidden lg:block">
+        <Link to="/accommodation/rooms">
+          <div className="btn btn-ghost font-semibold  border-green-500 border-2">Manage Rooms</div>
+        </Link>
+        <Link to="/accommodation/bookings">
+          <div className="btn btn-ghost font-semibold  border-green-500 border-2">Bookings</div>
+        </Link>
+
+      </div>
     <div className="flex-none">
       {/* <div className="dropdown dropdown-end">
         <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">

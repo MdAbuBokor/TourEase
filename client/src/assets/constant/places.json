@@ -1,26 +1,32 @@
 [
   {
-    "place-name": "Cox-Bazar",
-    "place-img": "https://images.unsplash.com/photo-1608958435020-e8a7109ba809?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y294JTIwYmF6YXIlMjBzZWElMjBiZWFjaHxlbnwwfHwwfHx8MA%3D%3D"
+    "place-name": "Cox's Bazar",
+    "place-img": "https://images.unsplash.com/photo-1608958435020-e8a7109ba809?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8Y294JTIwYmF6YXIlMjBzZWElMjBiZWFjaHxlbnwwfHwwfHx8MA%3D%3D",
+    "description": "Renowned for its world's longest natural sandy beach, Cox's Bazar is a paradise for sunbathers and beach lovers."
   },
   {
     "place-name": "Kuakata",
-    "place-img": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/a9/8b/44/sea-beach.jpg?w=1200&h=-1&s=1"
+    "place-img": "https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0a/a9/8b/44/sea-beach.jpg?w=1200&h=-1&s=1",
+    "description": "Kuakata offers a serene beach escape with its long coastline, colorful fishing boats, and dramatic sunsets."
   },
   {
-    "place-name": "Sajek-Valley",
-    "place-img": "https://tbbd-flight.s3.ap-southeast-1.amazonaws.com/blogzB8BGDn5J45LisskNSi5r3F07ohqWXZ4.png"
+    "place-name": "Sajek Valley",
+    "place-img": "https://tbbd-flight.s3.ap-southeast-1.amazonaws.com/blogzB8BGDn5J45LisskNSi5r3F07ohqWXZ4.png",
+    "description": "Nestled amidst the hills of Rangamati, Sajek Valley is a breathtaking getaway known for its mesmerizing cloudscapes, tribal villages, and trekking trails."
   },
   {
     "place-name": "Rangamati",
-    "place-img": "https://upload.wikimedia.org/wikipedia/commons/9/95/Kaptai_Lake_%2819833365911%29.jpg"
+    "place-img": "https://upload.wikimedia.org/wikipedia/commons/9/95/Kaptai_Lake_%2819833365911%29.jpg",
+    "description": "Rangamati is a land of scenic beauty, adorned by the vast Kaptai Lake, lush hills, and the vibrant culture of indigenous communities."
   },
   {
     "place-name": "Sundarbans",
-    "place-img": "https://dailyindustry.news/wp-content/uploads/2023/04/Sundarban.jpg"
+    "place-img": "https://dailyindustry.news/wp-content/uploads/2023/04/Sundarban.jpg",
+    "description": "The Sundarbans, the world's largest mangrove forest, is a UNESCO World Heritage Site teeming with wildlife, including the majestic Royal Bengal Tiger."
   },
   {
-    "place-name": "Saint-Martin",
-    "place-img": "https://a.cdn-hotels.com/gdcs/production105/d283/fe692f6d-a1b6-47c6-b2c0-39056ed2d7b7.jpg?impolicy=fcrop&w=800&h=533&q=medium"
+    "place-name": "Saint Martin",
+    "place-img": "https://a.cdn-hotels.com/gdcs/production105/d283/fe692f6d-a1b6-47c6-b2c0-39056ed2d7b7.jpg?impolicy=fcrop&w=800&h=533&q=medium",
+    "description": "Saint Martin, with its coral reefs, pristine beaches, and laid-back island charm, is a perfect destination for relaxation and watersport activities."
   }
 ]

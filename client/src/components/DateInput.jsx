@@ -5,7 +5,7 @@ import "flatpickr/dist/themes/material_green.css";
 import Flatpickr from "react-flatpickr";
 
 
-function DateInput({selectedDate, setSelectedDate,options})
+function DateInput({options,selectedDate, setSelectedDate})
 {
   
 
@@ -14,6 +14,7 @@ function DateInput({selectedDate, setSelectedDate,options})
  const handleDateChange = (selectedDates) => {
    
     setSelectedDate(selectedDates);
+    
   }
 
 return (
@@ -22,8 +23,8 @@ return (
       <Flatpickr
       className="w-full"
         options={options}
-        value={selectedDate}
         onChange={handleDateChange}
+        value={selectedDate}
       />
     </div>
   </div>

@@ -13,18 +13,15 @@ const accommodationSchema = new mongoose.Schema(
         "https://media.radissonhotels.net/image/radisson-blu-hotel-dhaka-water-garden/exterior/16256-113891-f63612886_3xl.jpg?impolicy=HomeHero",
     },
     title: { type: String, default: "A good place to stay" },
+    location_details: { type: String },
     description: { type: String },
     rating: { type: Number, default: 5, min: 0, max: 5 },
     facilities: [String],
-    map_location: {
-      type: Schema.Types.ObjectId,
-      ref: "Map_location",
-    },
-    contactInfo: {
-      phone: { type: String },
-      email: { type: String },
-      website: { type: String },
-    },
+
+    phone: { type: String },
+
+    website: { type: String },
+
     reviews: {
       type: [Schema.Types.ObjectId],
       ref: "Review",
@@ -35,6 +32,18 @@ const accommodationSchema = new mongoose.Schema(
     },
 
     discount: { type: Number, default: 0 },
+    gym: { type: Boolean, default: false },
+    spa: { type: Boolean, default: false },
+    bar: { type: Boolean, default: false },
+    laundry: { type: Boolean, default: false },
+    restaurent: { type: Boolean, default: false },
+    shopping: { type: Boolean, default: false },
+    freeParking: { type: Boolean, default: false },
+    bikeRental: { type: Boolean, default: false },
+    freeWifi: { type: Boolean, default: false },
+    movieNights: { type: Boolean, default: false },
+    swimmingPool: { type: Boolean, default: false },
+    cofeeShop: { type: Boolean, default: false },
 
     // Other accommodation-specific fields
 

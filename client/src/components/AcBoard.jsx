@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
-import MorePlace from "./MorePlace.jsx";
 import ShowAccommodationInBoard from "./ShowAccommodationInBoard.jsx";
 
 function AcBoard() {
@@ -41,13 +40,13 @@ function AcBoard() {
 
 
 <div className=" mt-8 border border-gray-900 shadow-xl lg:grid lg:grid-cols-10">
-  <div className="col-span-9">
+  <div className="col-span-10">
   <div className="p-4 text-3xl text-center font-sans font-bold">
     Accommodations in {place}
   </div>
 
 
-      <div className="flex flex-col xl:grid xl:grid-cols-2 ">
+      <div className="flex flex-col xl:grid xl:grid-cols-2 shadow-2xl gap-3">
         {accs.slice(0, visibleAccs).map((acc) => (
           <ShowAccommodationInBoard key={acc._id} acc={acc} />
           ))}
@@ -59,12 +58,14 @@ function AcBoard() {
       </div>
         
     </div>
-    <div className="col-span-1 border border-gray-600 shadow-2xl">
+    {/* <div className="col-span-1 border border-gray-600 shadow-2xl">
      
       <MorePlace />
 
+    </div> */}
     </div>
-    </div>
+
+    <div className=""></div>
 
     </div>
     

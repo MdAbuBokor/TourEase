@@ -1,15 +1,17 @@
-import React from 'react';
+
 import Banner from '../components/Banner';
 import Footer from '../components/Footer';
+import Header from '../components/Header';
+import HowItWorks from '../components/HowItWorks';
 import Places from '../components/Places';
-import Header from './../components/Header';
 
 export default function Home() {
   return (
-    <div className=''>
+    <div className='flex flex-col justify-center'>
       <Header />
       <Banner />
       <Places/>
+      <HowItWorks />
       <Footer />
 
 

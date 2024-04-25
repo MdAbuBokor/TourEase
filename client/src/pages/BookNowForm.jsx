@@ -1,37 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 import DateInput from "../components/DateInput";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 
 function BookNowForm() {
   const [selectedDate, setSelectedDate] = useState(
-    new Date(Date.now() + 86400000)
+    new Date(Date.now() )
   );
   const [formData, setformData] = useState({});
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const { currentUser, roomToBook } = useSelector((state) => state.user);
-  console.log(roomToBook);
+  //console.log(roomToBook);
 
   const roomId = useParams().roomId;
-  // Replace 'myQueryParam' with your actual query parameter name
+useEffect(() => {
+  setformData((currentFormData) => ({
+    ...currentFormData,
+    checkInDate: selectedDate,
+  }));
+}, [selectedDate]);
+  
   const handleChange = (e) => {
     setformData({
       ...formData,
       [e.target.id]: e.target.value,
       checkInDate: selectedDate,
-      price: roomToBook.price,
+      price: roomToBook.pricePerNight,
+    
       roomId: roomId,
       userId: currentUser._id,
     });
+   // console.log(formData)
   };
+ // console.log(currentUser._id);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    //console.log(formData);
     try {
       setLoading(true);
 
@@ -46,11 +56,23 @@ function BookNowForm() {
       if (data.success === false) {
         setError(data.message);
         setLoading(false);
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: data.message,
+        })
         return;
       }
       setLoading(false);
       setError(null);
-      navigate(`/`);
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text:  
+        "Booking Successful. See Your Bookings",
+
+      })
+    
 
       //    console.log(data)
     } catch (error) {
@@ -60,9 +82,16 @@ function BookNowForm() {
   };
 
   const option = {
+    altInput: true,
+    altFormat: "F j, Y",
     dateFormat: "Y-m-d",
+    mode: "single",
+    
+   
+    
     minDate: new Date(Date.now()), // Minimum selectable date is today
     disable: roomToBook.alreadyBooked,
+   
   };
 
   return (
@@ -110,11 +139,9 @@ function BookNowForm() {
             </label>
             <label className="input input-bordered flex items-center gap-2">
               <span className="min-w-[25%]">Email</span>
-              
               <input
                 type="email"
-                value={currentUser.email}
-                defaultValue={currentUser.email}
+               
                 placeholder="email "
                 className=" p-2 border-l w-full  "
                 id="email"
@@ -124,24 +151,29 @@ function BookNowForm() {
 
             <label className="input input-bordered flex items-center gap-2">
               <span className="min-w-[25%]">Select Date </span>
-              <div className=" p-2 border-l w-full">
+              <div  className=" p-2 border-l w-full">
                 <DateInput
                   options={option}
                   selectedDate={selectedDate}
                   setSelectedDate={setSelectedDate}
+                  handleFormChange={handleChange}
+
                 />
               </div>
             </label>
             <label className="input input-bordered flex items-center gap-2">
-              <span className="min-w-[25%]">Price</span>
+              <span className="min-w-[25%]">Price Per Day</span>
               <div className=" p-2 border-l w-full">
                 <p>{roomToBook.pricePerNight}</p>
               </div>
             </label>
 
+            
+            
+
             <button
               disabled={loading}
-              className="border p-3 rounded-lg  bg-slate-700 text-white hover:font-semibold disabled:opacity-80 uppercase hover:opacity-90 disabled:opacity-60"
+              className="border p-3 rounded-lg  bg-slate-700 text-white hover:font-semibold  uppercase hover:opacity-90 disabled:opacity-60"
             >
               {loading ? "loading..." : "Book"}
             </button>

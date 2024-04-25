@@ -6,10 +6,11 @@ import {
 } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { app } from "../firebase.js";
 
-export default function UpdateRoom({data,onClose}) {
+export default function UpdateRoom({data,onClose,onUpdate}) {
 
 
   const [file, setfile] = useState(undefined);
@@ -22,6 +23,8 @@ export default function UpdateRoom({data,onClose}) {
   const {currentAccommodation} = useSelector(state=>state.accommodation)
   const [loading,setLoading] = useState(false)
   const [error,setError] = useState(null)
+  
+const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -72,7 +75,7 @@ export default function UpdateRoom({data,onClose}) {
       ...formData,
       [e.target.id]: e.target.value,
     });
-    console.log(formData)
+    //console.log(formData)
   };
 
  
@@ -105,15 +108,18 @@ export default function UpdateRoom({data,onClose}) {
 
       //    console.log(data)
     } catch (er) {
-        console.log(er.message)
+       // console.log(er.message)
       setError(er.message)
       setLoading(false)
     }
     Swal.fire({
       title: "Updated Succesfully!",
-      icon: "success"
+      icon: "success",
+      timer: 1000,
     });
     onClose()
+   // console.log("ssss")
+   onUpdate(true);
   };
 
   const handleImageClick = (e) => {
@@ -163,109 +169,155 @@ export default function UpdateRoom({data,onClose}) {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit}>
-
-        {/* Room Information Section */}
-        <div className="">
+        <form onSubmit={handleSubmit}> <div className="">
+         
           <div className="bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4">Room Information</h2>
             {/* ... Your room information components ... */}
             <div className="">
               <div>
                 <label className="text-gray-600">Room Number:</label>
+               
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
+                  placeholder="Enter Room Number"
                   defaultValue={data.roomNumber}
+                 
                   id="roomNumber"
                   onChange={handleChange}
 
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <label className="text-gray-600">Room Type:</label>
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
-                  defaultValue={data.roomType}
+                 
                   id="roomType"
                   onChange={handleChange}
                 />
-              </div>
-
-              <div>
+              </div> */}
+                <div>
                 <label className="text-gray-600">Capacity:</label>
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
-                  defaultValue={data.capacity}
+                placeholder="Enter Room Capacity (eg. 2)"
+                defaultValue={data.capacity}
                   id="capacity"
                   onChange={handleChange}
                 />
               </div>
 
-              <div>
-                <label className="text-gray-600">Price Per Night:</label>
-                <input
-                  type="text"
-                  className="font-semibold border-2 w-full py-1"
-                  defaultValue={data.pricePerNight}
-                  id="pricePerNight"
-                  onChange={handleChange}
-                />
-              </div>
 
-              <div>
+            <div>
                 <label className="text-gray-600">Description:</label>
-                <input
+                <textarea
                   type="text"
-                  className="font-semibold border-2 w-full py-1 "
+                  className=" border-2 w-full py-1 "
                   defaultValue={data.description}
                   id="description"
                   onChange={handleChange}
                 />
               </div>
 
-
-
-              {/* <div>
-              <label className="text-gray-600">Availability:</label>
-              <input
-                type="text"
-                className={`font-semibold border-b-2 w-full py-1 ${
-                  data.availability ? 'text-green-600' : 'text-red-600'
-                }`}
-                defaultValue={data.availability ? 'Available' : 'Not Available'}
-              />
-            </div> */}
-
-              {/* <div>
-              <label className="text-gray-600">Facilities:</label>
-              <ul className="list-disc pl-4">
-                {data.facilities.map((facility, index) => (
-                  <li key={index} className="font-semibold">
-                    {facility}
-                  </li>
-                ))}
-              </ul>
-            </div> */}
-
+            
               <div>
-                <label className="text-gray-600">Bed Type:</label>
+                <label className="text-gray-600">Price Per Night:</label>
                 <input
                   type="text"
-                  className="font-semibold border-b-2 w-full py-1"
-                  defaultValue={data.bedType}
-                  id="bedType"
+                  className="font-semibold border-2 w-full py-1"
+               defaultValue={data.pricePerNight}
+                  id="pricePerNight"
                   onChange={handleChange}
-                  
                 />
               </div>
-              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full">Update</button>
-           
-            </div>
 
+              <div>
+                <label className="text-gray-600">King Beds Count:</label>
+                <input
+                  type="number"
+                  className="border-2 w-full py-1"
+                  defaultValue={data.kingBeds}
+                  id="kingBeds"
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="text-gray-600">Queen Beds Count:</label>
+                <input
+                  type="number"
+                  className="border-2 w-full py-1"
+                  defaultValue={data.queenBeds}
+                  id="queenBeds"
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="text-gray-600">Single Beds Count:</label>
+                <input
+                  type="number"
+                  className="border-2 w-full py-1"
+                  defaultValue={data.singleBeds}
+                  id="singleBeds"
+                  onChange={handleChange}
+                />
+              </div>
+
+
+             
+
+              
+              <p className="text-gray-600 mt-5 font-bold"> Select Avialable Facilities:</p>
+               
+              
+<div className="grid grid-cols-2 gap-4 mb-5">
+<label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="attachedBathroom" defaultChecked={data.attachedBathroom}  onChange={handleChange}/>
+    <span className="label-text font-bold">Attached Bathroom</span>
+  </label>
+              <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="roomService" defaultChecked={data.roomService} onChange={handleChange}/>
+    <span className="label-text font-bold">Room Service</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="Tv" defaultChecked={data.Tv} onChange={handleChange}/>
+    <span className="label-text font-bold">TV</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="balcony" defaultChecked={data.balcony} onChange={handleChange}/>
+    <span className="label-text font-bold">Balcony</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="freeWifi" defaultChecked={data.freeWifi} onChange={handleChange} />
+    <span className="label-text font-bold">Free Wifi</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="cityView" defaultChecked={data.cityView} onChange={handleChange} />
+    <span className="label-text font-bold">City View</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="oceanView" defaultChecked={data.oceanView}  onChange={handleChange}/>
+    <span className="label-text font-bold">Ocean View</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="forestView" defaultChecked={data.forestView} onChange={handleChange} />
+    <span className="label-text font-bold">Forest View</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="airCondition" defaultChecked={data.airCondition} onChange={handleChange}/>
+    <span className="label-text font-bold">Air Condition</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="soundProofed" defaultChecked={data.soundProofed}  onChange={handleChange}/>
+    <span className="label-text font-bold">Sound Proofed</span>
+  </label>
+  </div>
+              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full col-span-2">{loading?"Loading...":"Update Room"}</button>
+            </div>
           </div>
         </div>
 

@@ -1,130 +1,4 @@
 
-// import { useState } from 'react';
-// import { useSelector } from 'react-redux';
-// import { useNavigate } from 'react-router-dom';
-
-// const AddRoom = ({onClose}) => {
-//   const [formData, setFormData] = useState({});
-
-//   const [uploadSuccess, setUploadSuccess] = useState(false);
-//   const [error, setError] = useState(null);
-//   const [loading, setLoading] = useState(false);
-//   const navigate = useNavigate();
-//   const { currentAccommodation } = useSelector((state) => state.accommodation);
-
- 
-
-
-  
-
-//   const handleChange = (e) => {
-//     setFormData({
-//       ...formData,
-//       [e.target.id]: e.target.value,
-//     });
-//   };
-
-
-
-
-
-
-
-
-
- 
-
-
-//   return (
-
-
-      
-//     <div className="bg-black bg-opacity-70 h-full w-full z-10 absolute top-0 left-0">
-      
-   
-//     <div className='p-3 max-w-lg mx-auto bg-white shadow-slate-500 rounded-lg'>
-//     <button
-//          className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-95 hover:font-semibold disabled:opacity-80 right-0'
-//          onClick={onClose}
-        
-//         >
-//           Close
-//         </button>
-     
-
-//       <h1 className='text-3xl text-center font-semibold my-7'>Add New Room</h1>
-
-//       <form onSubmit={handleSubmit} className='flex flex-col gap-4'>
-     
-
-//         <label htmlFor="roomNumber">Room Number:</label>
-//         <input type="number" placeholder='Room Number' className='border p-3 rounded-lg' id='roomNumber' onChange={handleChange} />
-//         <label htmlFor="roomType">Room Type:</label>
-//         <select placeholder='Room Type' className='border p-3 rounded-lg' id='roomType' onChange={handleChange}>
-//         <option  value="singleRoom">Single Room</option>
-//         <option value="studio">Studio</option>
-//         <option value="adjoiningRoom">Adjoining Room</option>
-//         <option value="deluxeRoom">Deluxe Room</option>
-//         <option value="doubleRoom">Double Room</option>
-//         <option value="presidentialSuite">Presidential Suite</option>
-//         <option value="cabana">Cabana</option>
-//         <option value="suite">Suite</option>
-//         <option value="twin">Twin</option>
-//         <option value="quadRoom">Quad Room</option>
-//         <option value="queenRoom">Queen Room</option>
-//         <option value="kingRoom">King Room</option>
-//         <option value="penthouse">Penthouse</option>
-//         <option value="tripleRoom">Triple Room</option>
-//         <option value="murphyRoom">Murphy Room</option>
-//         <option value="villa">Villa</option>
-//         <option value="accessibleRoom">Accessible Room</option>
-//         <option value="apartments">Apartments</option>
-//         <option value="balconyRoom">Balcony Room</option>
-//         <option value="duplex">Duplex</option>
-//         <option value="miniSuiteHotelRoom">Mini Suite Hotel Room</option>
-//         <option value="others">Others</option>
-//         {/* Add more options as needed */}
-//         </select>
-
-
-//         <label htmlFor="capacity">Capacity:</label>
-//         <input type="number" placeholder='Capacity' className='border p-3 rounded-lg' id='capacity' onChange={handleChange} />
-
-//         <label htmlFor="pricePerNight">Price Per Night:</label>
-//         <input type="number" placeholder='Price Per Night' className='border p-3 rounded-lg' id='pricePerNight' onChange={handleChange} />
-        
-        
-
-
-//         {/* ... Other form inputs ... */}
-
-        
-
-//         <button
-//           disabled={loading}
-//           className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 hover:font-semibold disabled:opacity-80'
-//         >
-//           {loading ? 'Loading' : 'Add  Room'}
-//         </button>
-
-//       </form>
-      
-     
-
-//       {error && <p className='text-red-500 mt-5'>{error}</p>}
-     
-
-
-//     </div>
-//     </div>
-//     ) 
-// };
-
-// export default AddRoom;
-
-
-
-
 
 import {
   getDownloadURL,
@@ -133,11 +7,12 @@ import {
   uploadBytesResumable,
 } from "firebase/storage";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { app } from "../firebase.js";
 
-export default function AddRoom({onClose}) {
+export default function AddRoom({onClose,roomsAlreadyHave}) {
 
 
   const [file, setfile] = useState(undefined);
@@ -145,11 +20,12 @@ export default function AddRoom({onClose}) {
   const [filePercent, setfilePercent] = useState(0);
   const [fileUploadError, setfileUploadError] = useState(false);
   const [formData, setformData] = useState({});
-  const dispatch = useDispatch();
+
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const {currentAccommodation} = useSelector(state=>state.accommodation)
   const [loading,setLoading] = useState(false)
   const [error,setError] = useState(null)
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -175,6 +51,7 @@ export default function AddRoom({onClose}) {
 
       (error) => {
         setfileUploadError(true);
+        setError(error.message)
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -196,11 +73,11 @@ export default function AddRoom({onClose}) {
 
 
   const handleChange = (e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setformData({
       ...formData,
-      [e.target.id]: e.target.value,
+      [e.target.id]: value,
     });
-   
   };
 
  
@@ -232,32 +109,34 @@ export default function AddRoom({onClose}) {
 
       setLoading(false);
       setError(null);
-      setUploadSuccess(true);
-      navigate('/accommodation'); // Redirect to the accommodations page after successful creation
+      setUpdateSuccess(true);
+      //navigate('/accommodation'); // Redirect to the accommodations page after successful creation
     } catch (err) {
       setLoading(false);
       setError(err.message);
     }
+  
     Swal.fire({
       title: "Room Added Succesfully!",
       icon: "success"
     });
     onClose()
+   
   };
 
-  const handleImageClick = (e) => {
-    setImage(e.target.src);
-  };
+  // const handleImageClick = (e) => {
+  //   setImage(e.target.src);
+  // };
 
   return (
     <div className="">
-      <div className="p-3 max-w-lg mx-auto bg-white shadow-slate-500 rounded-lg">
+      <div className="p-3 max-w-lg mx-auto bg-white shadow-slate-500 rounded-lg mb-10">
       {/* Images Section */}
      
         <div className="">
           <div className="images lg:h-1/2 rounded-lg shadow-md">
             <div className="active-image mb-2 lg:mb-0">
-              <img className="h-full" src={ formData.photo ? formData.photo : "https://media.designcafe.com/wp-content/uploads/2023/07/05141750/aesthetic-room-decor.jpg" } alt="" />
+              <img className="h-full" src={ formData.photo ? formData.photo :  "https://www.lifewire.com/thmb/TRGYpWa4KzxUt1Fkgr3FqjOd6VQ=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/cloud-upload-a30f385a928e44e199a62210d578375a.jpg " } alt="" />
               
               <input
                   onChange={(e) => setfile(e.target.files[0])}
@@ -296,15 +175,27 @@ export default function AddRoom({onClose}) {
 
         {/* Room Information Section */}
         <div className="">
+          <div className="flex justify-center">
+           {roomsAlreadyHave?<>
+            <p className="text-red-700 text-center">Room Number Already Exist</p>
+            {roomsAlreadyHave?.map((room) => (
+                  <p key={room._id} className="badge">
+                    {room.roomNumber}
+                  </p>
+                ))}
+            </>:null}
+          </div>
           <div className="bg-white p-8 rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4">Room Information</h2>
             {/* ... Your room information components ... */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="">
               <div>
                 <label className="text-gray-600">Room Number:</label>
+               
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
+                  placeholder="Enter Room Number"
                  
                   id="roomNumber"
                   onChange={handleChange}
@@ -312,7 +203,7 @@ export default function AddRoom({onClose}) {
                 />
               </div>
 
-              <div>
+              {/* <div>
                 <label className="text-gray-600">Room Type:</label>
                 <input
                   type="text"
@@ -321,77 +212,123 @@ export default function AddRoom({onClose}) {
                   id="roomType"
                   onChange={handleChange}
                 />
-              </div>
-
-              <div>
+              </div> */}
+                <div>
                 <label className="text-gray-600">Capacity:</label>
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
-                
+                placeholder="Enter Room Capacity (eg. 2)"
                   id="capacity"
                   onChange={handleChange}
                 />
               </div>
 
+
+            <div>
+                <label className="text-gray-600">Description:</label>
+                <textarea
+                  type="text"
+                  className=" border-2 w-full py-1 "
+                  placeholder="Oceanfront bliss awaits. Slide open the glass doors and step onto your private balcony, where the salty breeze carries the rhythmic whisper of waves."
+                  id="description"
+                  onChange={handleChange}
+                />
+              </div>
+
+            
               <div>
                 <label className="text-gray-600">Price Per Night:</label>
                 <input
                   type="text"
                   className="font-semibold border-2 w-full py-1"
-                  
+                  placeholder="Enter Price Per Night (eg. 1000)"
                   id="pricePerNight"
                   onChange={handleChange}
                 />
               </div>
 
               <div>
-                <label className="text-gray-600">Description:</label>
+                <label className="text-gray-600">King Beds Count:</label>
                 <input
-                  type="text"
-                  className="font-semibold border-2 w-full py-1 "
-                
-                  id="description"
+                  type="number"
+                  className="border-2 w-full py-1"
+                  placeholder="Enter King Beds Count (eg. 1 or 0)"
+                  id="kingBeds"
                   onChange={handleChange}
                 />
               </div>
+              <div>
+                <label className="text-gray-600">Queen Beds Count:</label>
+                <input
+                  type="number"
+                  className="border-2 w-full py-1"
+                  placeholder="Enter Queen Beds Count (eg. 1 or 0)"
+                  id="queenBeds"
+                  onChange={handleChange}
+                />
+              </div>
+              <div>
+                <label className="text-gray-600">Single Beds Count:</label>
+                <input
+                  type="number"
+                  className="border-2 w-full py-1"
+                  placeholder="Enter Single Beds Count (eg. 1 or 0)"
+                  id="singleBeds"
+                  onChange={handleChange}
+                />
+              </div>
+
+
+             
 
               
-
-              {/* <div>
-              <label className="text-gray-600">Availability:</label>
-              <input
-                type="text"
-                className={`font-semibold border-b-2 w-full py-1 ${
-                  data.availability ? 'text-green-600' : 'text-red-600'
-                }`}
-                defaultValue={data.availability ? 'Available' : 'Not Available'}
-              />
-            </div> */}
-
-              {/* <div>
-              <label className="text-gray-600">Facilities:</label>
-              <ul className="list-disc pl-4">
-                {data.facilities.map((facility, index) => (
-                  <li key={index} className="font-semibold">
-                    {facility}
-                  </li>
-                ))}
-              </ul>
-            </div> */}
-
-              <div>
-                <label className="text-gray-600">Bed Type:</label>
-                <input
-                  type="text"
-                  className="font-semibold border-b-2 w-full py-1"
+              <p className="text-gray-600 mt-5 font-bold"> Select Avialable Facilities:</p>
                
-                  id="bedType"
-                  onChange={handleChange}
-                  
-                />
-              </div>
-              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full col-span-2">Add Room</button>
+              
+<div className="grid grid-cols-2 gap-4 mb-5">
+<label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="attachedBathroom"  onChange={handleChange}/>
+    <span className="label-text font-bold">Attached Bathroom</span>
+  </label>
+              <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="roomService" onChange={handleChange}/>
+    <span className="label-text font-bold">Room Service</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="Tv" onChange={handleChange}/>
+    <span className="label-text font-bold">TV</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="balcony" onChange={handleChange}/>
+    <span className="label-text font-bold">Balcony</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="freeWifi" onChange={handleChange} />
+    <span className="label-text font-bold">Free Wifi</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="cityView" onChange={handleChange} />
+    <span className="label-text font-bold">City View</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="oceanView"  onChange={handleChange}/>
+    <span className="label-text font-bold">Ocean View</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="forestView" onChange={handleChange} />
+    <span className="label-text font-bold">Forest View</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="airCondition" onChange={handleChange}/>
+    <span className="label-text font-bold">Air Condition</span>
+  </label>
+  <label className="cursor-pointer label border rounded-lg display: flex align-items: center">
+    <input type="checkbox" className="checkbox checkbox-success" id="soundProofed"  onChange={handleChange}/>
+    <span className="label-text font-bold">Sound Proofed</span>
+  </label>
+  </div>
+              <button onClick={handleSubmit} type="submit" className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full col-span-2">{loading?"Loading...":"Add Room"}</button>
             </div>
           </div>
         </div>

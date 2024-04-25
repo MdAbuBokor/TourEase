@@ -10,10 +10,10 @@ const roomSchema = new mongoose.Schema({
     ref: "Accommodation",
     required: true,
   },
-  roomType: {
+  description: {
     type: String,
-    required: true,
   },
+
   capacity: {
     type: Number,
     required: true,
@@ -21,10 +21,54 @@ const roomSchema = new mongoose.Schema({
   pricePerNight: {
     type: Number,
   },
-
-  description: {
-    type: String,
+  kingBeds: {
+    type: Number,
   },
+  queenBeds: {
+    type: Number,
+  },
+  singleBeds: {
+    type: Number,
+  },
+  bedAvailable: {
+    type: Number,
+  },
+  photo: {
+    type: String,
+    default:
+      "https://media.designcafe.com/wp-content/uploads/2023/07/05141750/aesthetic-room-decor.jpg",
+  },
+  attachedBathroom: {
+    type: Boolean,
+  },
+  roomService: {
+    type: Boolean,
+  },
+  Tv: {
+    type: Boolean,
+  },
+  balcony: {
+    type: Boolean,
+  },
+  freeWifi: {
+    type: Boolean,
+  },
+  cityView: {
+    type: Boolean,
+  },
+  oceanView: {
+    type: Boolean,
+  },
+  forestView: {
+    type: Boolean,
+  },
+  airCondition: {
+    type: Boolean,
+  },
+  soundProofed: {
+    type: Boolean,
+  },
+
   alreadyBooked: {
     type: [Date],
   },
@@ -38,11 +82,7 @@ const roomSchema = new mongoose.Schema({
   bedType: {
     type: String,
   },
-  photo: {
-    type: String,
-    default:
-      "https://media.designcafe.com/wp-content/uploads/2023/07/05141750/aesthetic-room-decor.jpg",
-  },
+
   images: {
     type: [String],
     default:

@@ -1,7 +1,7 @@
 import React from 'react';
 import { CiMenuBurger } from "react-icons/ci";
 import { FaCog, FaHome, FaSignOutAlt } from 'react-icons/fa';
-import { MdOutlineBedroomChild } from "react-icons/md";
+import { MdBookOnline, MdOutlineBedroomChild, MdUpdate } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -81,15 +81,22 @@ function SidebarNew() {
             </Link>
           </li>
           <li className="flex items-center border-b-4 border-sky-800">
-            <Link to="/settings" className="text-white hover:bg-gray-700 rounded-md p-2 flex items-center">
-              <FaCog className="mr-2" />
-              {sidebarOpened && <span>Settings</span>}
+            <Link to="/accommodation/bookings" className="text-white hover:bg-gray-700 rounded-md p-2 flex items-center">
+              <MdBookOnline className="mr-2" />
+              {sidebarOpened && <span className="ml-2">Bookings</span>}
+            </Link>
+          </li>
+         
+          <li className="flex items-center border-b-4 border-sky-800">
+            <Link to="/accommodation/update" className="text-white hover:bg-gray-700 rounded-md p-2 flex items-center">
+              <MdUpdate className="mr-2" />
+              {sidebarOpened && <span>Update</span>}
             </Link>
           </li>
           <li className="flex items-center border-b-4 border-sky-800">
-            <Link to="/accommodation/update" className="text-white hover:bg-gray-700 rounded-md p-2 flex items-center">
+            <Link to="/settings" className="text-white hover:bg-gray-700 rounded-md p-2 flex items-center">
               <FaCog className="mr-2" />
-              {sidebarOpened && <span>Update</span>}
+              {sidebarOpened && <span>Settings</span>}
             </Link>
           </li>
           <li className="flex items-center border-b-4 border-sky-800 hover:bg-red-950 bg-red-500">

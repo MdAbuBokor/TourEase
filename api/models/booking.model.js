@@ -15,6 +15,14 @@ const bookingSchema = new mongoose.Schema({
   email: { type: String, required: true },
   phone: { type: String, required: true },
   paymentStatus: { type: Boolean, default: false },
+  roomPhoto: {
+    type: String,
+    default:
+      "https://media.designcafe.com/wp-content/uploads/2023/07/05141750/aesthetic-room-decor.jpg",
+  },
+  isCompleted: { type: Boolean, default: false },
+  roomNo: { type: String, default: "Your Room No" },
+
   // Other booking-related fields
 });
 
