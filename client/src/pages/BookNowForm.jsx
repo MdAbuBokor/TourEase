@@ -72,6 +72,7 @@ useEffect(() => {
         "Booking Successful. See Your Bookings",
 
       })
+      navigate("/mybookings");  
     
 
       //    console.log(data)

@@ -1,6 +1,7 @@
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import Header from "../components/Header.jsx";
 import { app } from '../firebase.js';
@@ -16,6 +17,7 @@ import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutFailure, 
 export default function Profile() {
   const [file,setfile] = useState(undefined)
   const fileRef = useRef(null)
+  const navigate = useNavigate()
   const {currentUser,loading,error} = useSelector(state=>state.user)
   const [filePercent,setfilePercent] = useState(0)
   const [fileUploadError,setfileUploadError] = useState(false)
@@ -173,6 +175,12 @@ export default function Profile() {
           }
     
           dispatch(signOutSuccess(data));
+          navigate("/");
+          Swal.fire({
+            title: "SignOut!",
+            icon: "success"
+          });
+         
        
       //    console.log(data)
           
@@ -181,10 +189,7 @@ export default function Profile() {
             dispatch(signOutFailure(error.message));
           
         }
-        Swal.fire({
-          title: "SignOut!",
-          icon: "success"
-        });
+
       }
     });
 

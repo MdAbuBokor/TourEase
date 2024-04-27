@@ -13,7 +13,7 @@ function ShowReviews({accommodationId}) {
   return (<div className="">
     {
     reviews?.map((review) => (
-        <div key={review._id} className="px-2 border rounded-lg shadow-2xl">
+        <div key={review._id} className="px-2 border rounded-lg shadow-2xl mb-2">
             <p className='font-semibold'>Guest Name : {review.bookingId.name}</p>
             <p>Rating : {review.rating}</p>
             <div className="rating">
