@@ -59,7 +59,7 @@ const handleSubmit =async (e ) =>{
  <form onSubmit={handleSubmit} action="" className='flex flex-col gap-4'>
  <label className="input input-bordered flex items-center gap-2">
  <span className="min-w-[25%]">Username</span>
-  <input type="text"  placeholder='username ' className=' p-2 border-l w-full  ' id ='email' onChange={handleChange}/>
+  <input type="text"  placeholder='username ' className=' p-2 border-l w-full  ' id ='username' onChange={handleChange}/>
 </label>
 
 <label className="input input-bordered flex items-center gap-2">
