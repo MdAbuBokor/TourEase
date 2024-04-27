@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-import { isAdmin } from "../../../middleware/isAdmin";
 import { signOutFailure, signOutStart, signOutSuccess } from "../../../redux/user/userSlice";
 
 
@@ -15,22 +14,6 @@ export default function HeaderAdmin() {
   const { currentUser } = useSelector((state) => state.user);
   //console.log(currentUser._id);
 
-  const isAd = isAdmin(currentUser._id);
-  
-  if(!isAd){
-    Swal.fire({
-      title: "Error!",
-      text: "You are not an Admin",
-      icon: "error",
-      confirmButtonText: "Ok",
-    })
-    navigate("/")
-  }
-  useEffect(() => {
-    if(!isAd){
-      navigate("/")
-    }
-  }, [isAd])
 
 
   useEffect(() => {
@@ -86,7 +69,7 @@ export default function HeaderAdmin() {
    
     <div className="navbar bg-base-100 shadow-xl sticky top-0 z-10 flex justify-between">
       <div className="flex-1">
-        <Link to="/">
+        <Link to="/admin">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
             <span className="">Tour</span>
             <span className="">Ease</span>
@@ -94,11 +77,11 @@ export default function HeaderAdmin() {
         </Link>
       </div>
       <div className="flex flex-row gap-4 hidden lg:block">
-        <Link to="/accommodation">
-          <div className="btn btn-ghost font-semibold">Accommodation</div>
+        <Link to="/admin/locations">
+          <div className="btn btn-ghost font-semibold">Manage Location</div>
         </Link>
-        <Link to="/mybookings">
-          <div className="btn btn-ghost font-semibold">Booking</div>
+        <Link to="/admin/acc">
+          <div className="btn btn-ghost font-semibold">Manage Accommdation</div>
         </Link>
 
       </div>

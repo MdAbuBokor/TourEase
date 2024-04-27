@@ -6,7 +6,7 @@ import useFetch from "../../hooks/useFetch";
 function ShowAccommodationInBoard({ acc }) {
     //console.log(acc)
     const [avgRating,setAvgRating] = useState(5);
-    const {data, loading, error} = useFetch(`/api/review//getAvgRatingOfAcc//${acc._id}`);
+    const {data} = useFetch(`/api/review/getAvgRatingOfAcc/${acc._id}`);
 
     useEffect(() => {
         setAvgRating(data.avgRating || 5);

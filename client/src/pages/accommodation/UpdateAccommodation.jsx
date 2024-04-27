@@ -10,6 +10,7 @@ import HeaderAccomodation from "../../components/Header.accommodation.jsx";
 import SidebarNew from "../../components/Sidebar/SidebarNew.jsx";
 
 import Swal from "sweetalert2";
+import useFetch from "../../../hooks/useFetch.js";
 import { app } from "../../firebase.js";
 import {
   signOutFailure,
@@ -32,6 +33,8 @@ export default function Profile() {
   const [fileUploadError, setfileUploadError] = useState(false);
   const [formData, setformData] = useState({});
   const dispatch = useDispatch();
+  const {data} = useFetch(`/api/location/getAllLocations`);
+  const [locations,setLocations] = useState([]);
 
   // console.log(formData)
   // console.log(filePercent)
@@ -43,6 +46,12 @@ export default function Profile() {
       handleFileUpload(file);
     }
   }, [file]);
+
+  useEffect(() => {
+    if(data) {
+        setLocations(data);
+    }
+}, [data])
 
   const handleFileUpload = (file) => {
     const storage = getStorage(app);
@@ -237,12 +246,11 @@ export default function Profile() {
         
         <label htmlFor="location">Location:</label>
         <select className='border p-3 space-y-2 rounded-lg' id='location' onChange={handleChange}  defaultValue={currentAccommodation.location} >
-        <option value="kuakata">Kuakata</option>
-        <option value="cox-bazar">Cox-Bazar</option>
-        <option value="sajek">Sajek-Valley</option>
-        <option value="rangamati">Rangamati</option>
-        <option value="sundarbans">Sundarbans</option>
-        <option value="saint-martin">Saint-Martin</option>
+        {locations.map((location) => (
+        <option key={location._id} value={location.name}>
+          {location.name}
+        </option>
+      ))}
     
         {/* Add more options as needed */}
         </select>

@@ -2,10 +2,13 @@
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import useFetch from '../../../hooks/useFetch';
 import HeaderAccomodation from '../../components/Header.accommodation';
 import { app } from '../../firebase';
 
 const CreateAccommodation = () => {
+  const {data} = useFetch(`/api/location/getAllLocations`);
+  const [locations,setLocations] = useState([]);
   const [formData, setFormData] = useState({});
 
   const [uploadSuccess, setUploadSuccess] = useState(false);
@@ -18,6 +21,13 @@ const CreateAccommodation = () => {
 
   const [filePercent,setfilePercent] = useState(0)
   const [fileUploadError,setfileUploadError] = useState(false)
+
+  useEffect(() => {
+    if(data) {
+        setLocations(data);
+    }
+}, [data])
+
 
  
 
@@ -188,13 +198,13 @@ const CreateAccommodation = () => {
         </select>
         
         <label htmlFor="location">Location:</label>
-        <select className='border p-3 space-y-2 rounded-lg' id='location' onChange={handleChange} defaultValue="kuakata">
-        <option value="kuakata">Kuakata</option>
-        <option value="cox-bazar">Cox-Bazar</option>
-        <option value="sajek">Sajek-Valley</option>
-        <option value="rangamati">Rangamati</option>
-        <option value="sundarbans">Sundarbans</option>
-        <option value="saint-martin">Saint-Martin</option>
+        <select className='border p-3 space-y-2 rounded-lg' id='location' onChange={handleChange}>
+
+      {locations.map((location) => (
+        <option key={location._id} value={location.name}>
+          {location.name}
+        </option>
+      ))}
     
         {/* Add more options as needed */}
         </select>

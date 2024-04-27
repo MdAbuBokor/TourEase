@@ -113,9 +113,10 @@ export const getAccommodationInfo = async (req, res, next) => {
 export const updateAccommodationInfo = async (req, res, next) => {
   try {
     const upaccommodation = await Accommodation.findById(req.params.id);
-    if (req.accommodation.id !== req.params.id) {
-      return next(errorHandler(403, "You can update only your account!"));
-    }
+
+    // if (req.accommodation.id !== req.params.id) {
+    //   return next(errorHandler(403, "You can update only your account!"));
+    // }
     const { name, email, password, ...rest } = req.body;
     if (req.body.email && req.body.email !== upaccommodation.email) {
       const emailExist = await Accommodation.findOne({ email });
@@ -183,6 +184,19 @@ export const getAcByLoc = async (req, res, next) => {
 
     // Fetch accommodations based on the location
     const Acc = await Accommodation.find({ location }).select("-password");
+
+    res.status(200).json(Acc);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllAcc = async (req, res, next) => {
+  try {
+    // const location = req.query.location;
+
+    // Fetch accommodations based on the location
+    const Acc = await Accommodation.find().select("-password");
 
     res.status(200).json(Acc);
   } catch (error) {

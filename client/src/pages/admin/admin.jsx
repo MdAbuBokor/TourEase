@@ -5,7 +5,7 @@ function Admin() {
     <div>
        <HeaderAdmin />
        <div className="">
-        Admin
+          Admin Page
        </div>
     </div>
   )

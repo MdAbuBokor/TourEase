@@ -7,14 +7,17 @@ function AcBoard() {
   const place =useParams().place;
   const [accs, setAccs] = useState([]);
   const [visibleAccs, setVisibleAccs] = useState(10); // Number of initially visible accommodations
-  const { data, loading, error } = useFetch(
+  const { data,  } = useFetch(
     "/api/accommodation/getAccommodationByLocation?location="+place
   );
 
 
   useEffect(() => {
     if (data) {
-      setAccs(data);
+      setAccs(data.filter((acc) => !acc.isBanned && acc.isApproved));
+      //console.log(data);
+      
+      //setAccs(data);
     }
   }, [data]);
 

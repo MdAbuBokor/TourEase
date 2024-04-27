@@ -21,6 +21,9 @@ const accommodationSchema = new mongoose.Schema(
     phone: { type: String },
 
     website: { type: String },
+    isBanned: { type: Boolean, default: false },
+    isActive: { type: Boolean, default: true },
+    isApproved: { type: Boolean, default: false },
 
     reviews: {
       type: [Schema.Types.ObjectId],
