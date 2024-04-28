@@ -61,9 +61,12 @@ function Locations() {
     
               Swal.fire({
                 title: "Deleted!",
-                text: "Room has been deleted.",
+                text: "Locatin has been deleted.",
                 icon: "success",
               });
+              setLocations(locations.filter((location) => location._id !== locationId));
+
+
              
     
               //    console.log(data)
