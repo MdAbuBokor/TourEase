@@ -75,6 +75,7 @@ function RoomsBoard({ acc }) {
               <img
                 src={room.photo}
                 alt="Room_pic"
+                className="w-full h-60 object-cover"
               />
             </figure>
             <div className="card-body">
