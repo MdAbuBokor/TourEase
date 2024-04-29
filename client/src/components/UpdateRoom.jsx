@@ -71,13 +71,12 @@ const navigate = useNavigate();
 
 
   const handleChange = (e) => {
+    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setformData({
       ...formData,
-      [e.target.id]: e.target.value,
+      [e.target.id]: value,
     });
-    //console.log(formData)
   };
-
  
  
 
